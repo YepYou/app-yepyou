@@ -1,0 +1,12 @@
+{
+  "name": "yepyou",
+  "displayName": "yepyou",
+  "expo": {
+    "name": "yepyou",
+    "slug": "yepyou",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
