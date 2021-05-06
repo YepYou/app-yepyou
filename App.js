@@ -1,21 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { Login } from './src/Login';
+import { default as theme } from './src/styles/theme.json';
+import { default as mapping } from './src/styles/mappding.json';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+// import { AppNavigator } from './src/components';
+// <AppNavigator />
+const App = () => (
+    <>
+        <IconRegistry icons={EvaIconsPack}/>
+        <ApplicationProvider {...eva} 
+          theme={{ ...eva.light, ...theme }}
+          customMapping={mapping}>
+            <Login />
+        </ApplicationProvider>
+    </>
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
