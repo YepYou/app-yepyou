@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, Image, ImageBackground, Platform } from 'react-native';
+import { Dimensions, Image, ImageBackground, Keyboard, Platform } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import NetInfo from "@react-native-community/netinfo";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -41,7 +41,6 @@ const Signin = () => {
     };
 
     const localeDateService = new NativeDateService('pt-BR', { i18n });
-
 
     const styles = useStyleSheet(themedStyles);
 
@@ -123,6 +122,7 @@ const Signin = () => {
                     placeholder=""
                     dateService={localeDateService}
                     onSelect={(nextDate) => setBirth(nextDate)}
+                    onPress={() => Keyboard.dismiss()}
               />
 
                 <Button
