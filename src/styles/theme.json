@@ -4,12 +4,13 @@
   "color-basic-300": "#F5F5F5",
   "color-basic-400": "#D4D4D4",
   "color-basic-500": "#B3B3B3",
-  "color-basic-600": "#ffffff",
+  "color-basic-600": "#808080",
   "color-basic-700": "#4A4A4A",
   "color-basic-800": "#383838",
   "color-basic-900": "#292929",
   "color-basic-1000": "#1F1F1F",
   "color-basic-1100": "#141414",
+
 
   "color-primary-100": "#ECCBFA",
   "color-primary-200": "#D59AF5",
