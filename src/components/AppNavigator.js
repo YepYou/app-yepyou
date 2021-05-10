@@ -5,13 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthNavigator, MainNavigator } from '../router/index';
 import AuthContext from '../context/AuthContext';
 
-import Apresentation from './Apresentation';
 import Loading from './Loading';
 
-import api from '../services/api';
+// import api from '../services/api';
 
 const AppNavigator = () => {
-    const [isFirstTime, setIsFirstTime] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
 
@@ -23,45 +21,26 @@ const AppNavigator = () => {
     }));
 
     async function getUser() {
-        const userStorage = await AsyncStorage.getItem('user');
+        const userStorage = await AsyncStorage.getItem('@yepyou:user');
 
         setUser(userStorage ? JSON.parse(userStorage) : false);
         setIsLoading(false);
     }
 
+    /*
     async function getHeaders() {
-        api.defaults.headers['access-token'] = await AsyncStorage.getItem('access-token');
-        api.defaults.headers['client'] = await AsyncStorage.getItem('client');
-        api.defaults.headers['uid'] = await AsyncStorage.getItem('uid');;
+        api.defaults.headers['token'] = await AsyncStorage.getItem('token');
     }
-
+    */
 
     useEffect(() => {
-        firsTimeVerify();
-
-        async function firsTimeVerify() {
-            try {
-                const alreadyLaunche = await AsyncStorage.getItem('alreadyLaunched');
-
-                if (!alreadyLaunche) {
-                    setIsFirstTime(true);
-                }
-            } catch (error) {
-                console.log('Error: firsTimeVerify - ', error);
-            }
-        }
-
         getUser();
-        getHeaders();
+        // getHeaders();
     }, []);
-
-    if (isFirstTime) {
-        return <Apresentation setIsFirstTime={setIsFirstTime} />
-    }
 
     if (isLoading) {
         return <Loading />;
-    }
+    } 
 
     return (
         <NavigationContainer>
