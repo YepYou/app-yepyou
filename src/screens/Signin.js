@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Dimensions, Image, ImageBackground, Platform } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import NetInfo from "@react-native-community/netinfo";
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -15,6 +14,7 @@ import logoIcon from '../../assets/loginIcon.png';
 import AuthContext from '../context/AuthContext';
 import api from '../services/api';
 import config from '../config';
+import Loading from '../components/Loading';
 
 const Signin = () => {
     const { signin: ctxSignin } = useContext(AuthContext);
@@ -84,6 +84,10 @@ const Signin = () => {
         }
 
         setLoading(false);
+    }
+
+    if (loading) {
+        return <Loading />;
     }
 
     return (
