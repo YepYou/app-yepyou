@@ -1,21 +1,20 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-    Dimensions, Image, ImageBackground, Platform
-} from 'react-native';
-import {
-    Button, Datepicker, CalendarViewModes, Layout, Input, StyleService, useStyleSheet
-} from '@ui-kitten/components';
+import { Dimensions, Image, ImageBackground, Platform } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import NetInfo from "@react-native-community/netinfo";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ScreenOrientation from 'expo-screen-orientation';
+
+import {
+    Button, Datepicker, CalendarViewModes, Layout, Input, StyleService, useStyleSheet, NativeDateService
+} from '@ui-kitten/components';
 
 import bgLoginScreen from '../../assets/bgLoginScreen.png';
 import logoIcon from '../../assets/loginIcon.png';
 
-import NetInfo from "@react-native-community/netinfo";
-
 import AuthContext from '../context/AuthContext';
 import api from '../services/api';
+import config from '../config';
 
 const Signin = () => {
     const { signin: ctxSignin } = useContext(AuthContext);
@@ -29,6 +28,20 @@ const Signin = () => {
     const min = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 43800);
 
     const datepickerBirthDate = useRef();
+
+    const i18n = {
+        dayNames: {
+            short: config.i18n.pt.weekDays.short,
+            long: config.i18n.pt.weekDays.long
+        },
+        monthNames: {
+            short: config.i18n.pt.months.short,
+            long: config.i18n.pt.months.long
+        }
+    };
+
+    const localeDateService = new NativeDateService('pt-BR', { i18n });
+
 
     const styles = useStyleSheet(themedStyles);
 
@@ -82,7 +95,7 @@ const Signin = () => {
                     source={logoIcon}
                     style={styles.headerImage}
                     resizeMode="contain"
-              />
+                />
           </Layout>
 
             <Layout style={styles.form}>
@@ -92,7 +105,7 @@ const Signin = () => {
                     value={name}
                     label="NOME"
                     onChangeText={(nextValue) => setName(nextValue)}
-              />
+                />
 
                 <Datepicker
                     textStyle={styles.textStyleForm}
@@ -104,6 +117,7 @@ const Signin = () => {
                     min={min}
                     startView={CalendarViewModes.YEAR}
                     placeholder=""
+                    dateService={localeDateService}
                     onSelect={(nextDate) => setBirth(nextDate)}
               />
 
