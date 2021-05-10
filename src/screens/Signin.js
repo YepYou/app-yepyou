@@ -108,6 +108,7 @@ const Signin = () => {
               />
 
                 <Button
+                    disabled={!name || !birth}
                     status="success"
                     style={styles.button}
                     onPress={handleSubmit}
