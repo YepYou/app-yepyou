@@ -13,16 +13,31 @@ const World = ({ navigation }) => {
     const [worlds, setWorlds] = useState([]);
     const [world, setWorld] = useState(null);
     const [haveConnetion, setHaveConnection] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         getWorlds();
     }, []);
 
     useEffect(() => {
-        if (world.plan === config.plan.free) {
+        if (world && world.plan === config.plan.free) {
             console.log(world.plan);
         }
     }, [world]);
+
+    async function loadMoreWorlds() {
+		if (worlds.length <= totalPages) {
+            try {
+                setPage(oldPage => oldPage + 1);
+                const { data: worldsData } = await api.get(`/v1/worlds?page=${page}`);
+
+                setWorlds([...worlds, worldsData])
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
 
     async function getWorlds() {
         setLoading(true);
@@ -31,9 +46,10 @@ const World = ({ navigation }) => {
 
         if (netinfo.isConnected) {
             setHaveConnection(true);
-            const { data: worlds } = await api.get('/v1/worlds');
+            const { data: worldsData } = await api.get('/v1/worlds');
             
-            setWorlds(worlds.docs);
+            setTotalPages(worldsData.totalPages);
+            setWorlds(worldsData.docs);
         } else {
             setHaveConnection(false);
         }
@@ -87,8 +103,16 @@ const World = ({ navigation }) => {
     };
 
     return (
-        <Layout>
-            <List data={worlds} renderItem={renderItem} />
+        <Layout style={styles.container} >
+            <List 
+                refreshing={false}
+                style={styles.list}
+                data={worlds} 
+                renderItem={renderItem}
+                onRefresh={() => getWorlds()}
+                onEndReachedThreshold={0.1}
+				onEndReached={loadMoreWorlds}
+            />
         </Layout>
     );
 };
@@ -98,6 +122,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flex: 1,
 		justifyContent: 'center'
+	},
+
+    list: {
+		flex: 1,
+		height: '100%',
+		width: '100%'
 	},
 
     cardWorld: {
