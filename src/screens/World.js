@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Card, Icon, Layout, List, Text } from '@ui-kitten/components';
+import { Button, Card, Icon, Layout, List, Text } from '@ui-kitten/components';
 
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Loading from '../components/Loading';
 import NetInfo from "@react-native-community/netinfo";
 
@@ -24,8 +24,9 @@ const World = ({ navigation }) => {
 
         if (netinfo.isConnected) {
             setHaveConnection(true);
-            // const { data: worlds } = await api.get('/v1/worlds');
-            setWorlds(null);
+            const { data: worlds } = await api.get('/v1/worlds');
+            
+            setWorlds(worlds.docs);
         } else {
             setHaveConnection(false);
         }
@@ -65,25 +66,15 @@ const World = ({ navigation }) => {
 
     const renderItem = (info) => {
         return(
-            <Card status='basic' onPress={() => navigation.navigate('Enterprise', info.item)}>
-                <Layout style={styles.cardItem}>
-                    <Avatar style={styles.cardItemAvatar} source={{ uri: `${config.api.urlBase}/${info.item.photo}` }} />
-                    <Layout style={styles.cardItemDescription}>
-                        <Text>{info.item.enterprise_name}</Text>
-                        <Text appearance="hint">
-                            {info.item.enterprise_type.enterprise_type_name} - <Text appearance="hint">{info.item.city} - {info.item.country}</Text>
-                        </Text>
-                        <Text appearance="hint">$ {info.item.share_price}</Text>
-                    </Layout>
-                </Layout>
-            </Card>
+            <TouchableOpacity style={styles.cardWorld}  onPress={() => console.log('teste')}>
+                <Image style={styles.cardWorldImage} source={{ uri: `${info.item.url}` }} />
+            </TouchableOpacity>
         );
     };
 
     return (
         <Layout>
             <List
-                style={styles.list}
                 data={worlds}
                 renderItem={renderItem}
             />
@@ -98,17 +89,16 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 
-    cardItem: {
-        flexDirection: 'row'
+    cardWorld: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingTop: 20
     },
 
-    cardItemAvatar: {
-        marginTop: 10
-    },
-
-    cardItemDescription: {
-        paddingLeft: 20,
-        flexDirection: 'column'
+    cardWorldImage: {
+        width: '95%',
+        height: 160,
+        borderRadius: 14
     },
 
     icon: {
@@ -123,10 +113,6 @@ const styles = StyleSheet.create({
 
     noConnectionText: {
         color: '#ddd'
-    },
-
-    search: {
-        margin: 6
     }
 });
 
