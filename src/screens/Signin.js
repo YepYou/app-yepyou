@@ -111,7 +111,6 @@ const Signin = () => {
                 />
 
                 <Datepicker
-                    textStyle={styles.textStyleForm}
                     ref={datepickerBirthDate}
                     controlStyle={styles.pickerControl}
                     style={styles.picker}
@@ -127,7 +126,6 @@ const Signin = () => {
 
                 <Button
                     disabled={!name || !birth}
-                    status="success"
                     style={styles.button}
                     onPress={handleSubmit}
               >
@@ -176,7 +174,7 @@ const themedStyles = StyleService.create({
         borderRadius: 45,
         paddingHorizontal: 35,
         paddingVertical: 10,
-        backgroundColor: 'color-primary-default'
+        backgroundColor: 'color-info-default'
     },
 
     button: {
@@ -193,7 +191,8 @@ const themedStyles = StyleService.create({
 
     pickerControl: {
         borderRadius: 45,
-        backgroundColor: 'color-primary-default'
+        backgroundColor: 'color-info-default',
+        color: 'white'
     },
 
     textStyleForm: {
