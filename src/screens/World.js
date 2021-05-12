@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Icon, Layout, List, Text } from '@ui-kitten/components';
+import { Avatar, Button, Icon, Layout, List, Text } from '@ui-kitten/components';
 
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Loading from '../components/Loading';
@@ -11,11 +11,18 @@ import config from '../config';
 const World = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
     const [worlds, setWorlds] = useState([]);
+    const [world, setWorld] = useState(null);
     const [haveConnetion, setHaveConnection] = useState(true);
 
     useEffect(() => {
         getWorlds();
     }, []);
+
+    useEffect(() => {
+        if (world.plan === config.plan.free) {
+            console.log(world.plan);
+        }
+    }, [world]);
 
     async function getWorlds() {
         setLoading(true);
@@ -64,20 +71,24 @@ const World = ({ navigation }) => {
         );
     }
 
-    const renderItem = (info) => {
+    const renderItem = ({ item }) => {
         return(
-            <TouchableOpacity style={styles.cardWorld}  onPress={() => console.log('teste')}>
-                <Image style={styles.cardWorldImage} source={{ uri: `${info.item.url}` }} />
+            <TouchableOpacity style={styles.cardWorld} onPress={() => setWorld(item)}>
+                {item.plan === config.plan.free ?
+                    <Image style={styles.cardWorldImage} source={{ uri: `${item.url}` }} />
+                :
+                    <>
+                        <Image style={[styles.cardWorldImage, styles.cardWorldImagePremium]} source={{ uri: `${item.url}` }} />
+                        <Avatar style={styles.cardWorldAvatar} source={require('../../assets/padlock.png')}/>
+                    </>
+                }
             </TouchableOpacity>
         );
     };
 
     return (
         <Layout>
-            <List
-                data={worlds}
-                renderItem={renderItem}
-            />
+            <List data={worlds} renderItem={renderItem} />
         </Layout>
     );
 };
@@ -99,6 +110,16 @@ const styles = StyleSheet.create({
         width: '95%',
         height: 160,
         borderRadius: 14
+    },
+
+    cardWorldImagePremium: {
+        opacity: 0.5
+    },
+
+    cardWorldAvatar: {
+        bottom: 10,
+        position: 'absolute',
+        right: 25
     },
 
     icon: {
