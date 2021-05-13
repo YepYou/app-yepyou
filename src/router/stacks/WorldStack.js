@@ -1,10 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import {
-    useTheme
-} from '@ui-kitten/components';
+import { useTheme } from '@ui-kitten/components';
 
-import { World } from '../../screens';
+import { World, Missions } from '../../screens';
 import colors from '../../styles/palette.json';
 
 function WorldStack() {
@@ -23,13 +21,21 @@ function WorldStack() {
                     alignSelf: 'center',
                     fontWeight: 'bold'
                 }
-            }}
-        >
+            }}>
+
             <Stack.Screen
                 name="World" 
                 component={World}
                 options={{
                     title: 'Mundos' 
+                }}
+            />
+
+            <Stack.Screen
+                name="Missions" 
+                component={Missions}
+                options={{
+                    title: 'Missões' 
                 }}
             />
         </Stack.Navigator>
