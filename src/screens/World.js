@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Icon, Layout, List, Text } from '@ui-kitten/components';
+import { Avatar, Button, Card, Icon, Layout, List, Modal, Text } from '@ui-kitten/components';
 
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Loading from '../components/Loading';
@@ -15,6 +15,8 @@ const World = ({ navigation }) => {
     const [haveConnetion, setHaveConnection] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [visible, setVisible] = React.useState(false);
+
 
     useEffect(() => {
         getWorlds();
@@ -89,7 +91,13 @@ const World = ({ navigation }) => {
 
     const renderItem = ({ item }) => {
         return(
-            <TouchableOpacity style={styles.cardWorld} onPress={() => setWorld(item)}>
+            <TouchableOpacity style={styles.cardWorld} onPress={() => {
+                if (item.plan === config.plan.free) {
+                    setWorld(item);
+                } else {
+                    setVisible(true);
+                }
+            }}>
                 {item.plan === config.plan.free ?
                     <Image style={styles.cardWorldImage} source={{ uri: `${item.url}` }} />
                 :
@@ -104,6 +112,20 @@ const World = ({ navigation }) => {
 
     return (
         <Layout style={styles.container} >
+            <Modal visible={visible}>
+                <Card disabled={true}>
+                    <Text>Olá explorador!!! {`\n`}</Text>
+                    
+                    <Text>Para acessar este mundo você vai precisar de uma conta Premium! 🚀</Text>
+                    
+                    <Text>{`\n`}</Text>
+
+                    <Button onPress={() => setVisible(false)}>
+                        Voltar
+                    </Button>
+                </Card>
+            </Modal>
+
             <List 
                 refreshing={false}
                 style={styles.list}
