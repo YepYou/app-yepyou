@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Card, Icon, Layout, List, Modal, Text } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
+
+import { Avatar, Button, Card, Layout, List, Modal, Text } from '@ui-kitten/components';
 
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Loading from '../components/Loading';
 import NetInfo from "@react-native-community/netinfo";
+
+import Loading from '../components/Loading';
+import WithoutConnection from '../components/WithoutConnection';
 
 import api from '../services/api';
 import config from '../config';
 
-const World = ({ navigation }) => {
+const World = () => {
+    const navigation = useNavigation();
+
     const [loading, setLoading] = useState(false);
     const [worlds, setWorlds] = useState([]);
     const [world, setWorld] = useState(null);
@@ -23,7 +29,7 @@ const World = ({ navigation }) => {
 
     useEffect(() => {
         if (world && world.plan === config.plan.free) {
-            console.log(world.plan);
+            navigation.navigate('Missions', { world });
         }
     }, [world]);
 
@@ -63,20 +69,8 @@ const World = ({ navigation }) => {
     }
 
     if (!haveConnetion) {
-        return(
-            <Layout style={styles.container}>
-                <Icon
-                    style={styles.icon}
-                    fill='#ddd'
-                    name='wifi-off-outline'
-                />
-                <Text style={styles.noConnectionText} appearance='hint' category='h4'>
-                    Without connection
-                </Text>
-                <Button style={styles.noConnectionButton} onPress={getWorlds}>
-                    Try again
-                </Button>
-            </Layout>
+        return (
+            <WithoutConnection getData={getWorlds}/>
         );
     }
 
@@ -115,7 +109,7 @@ const World = ({ navigation }) => {
                 <Card disabled={true}>
                     <Text>Olá explorador!!! {`\n`}</Text>
                     
-                    <Text>Para acessar este mundo você vai precisar de uma conta Premium! 🚀</Text>
+                    <Text>Para embarcar nesta viagem você vai precisar de uma conta Premium! 🚀</Text>
                     
                     <Text>{`\n`}</Text>
 
@@ -171,20 +165,6 @@ const styles = StyleSheet.create({
         bottom: 10,
         position: 'absolute',
         right: 25
-    },
-
-    icon: {
-        width: 76,
-        height: 76,
-        marginBottom: 12,
-    },
-
-    noConnectionButton: {
-        marginTop: 12
-    },
-
-    noConnectionText: {
-        color: '#ddd'
     }
 });
 
