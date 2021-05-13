@@ -15,8 +15,7 @@ const World = ({ navigation }) => {
     const [haveConnetion, setHaveConnection] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [visible, setVisible] = React.useState(false);
-
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     useEffect(() => {
         getWorlds();
@@ -95,7 +94,7 @@ const World = ({ navigation }) => {
                 if (item.plan === config.plan.free) {
                     setWorld(item);
                 } else {
-                    setVisible(true);
+                    setModalVisible(true);
                 }
             }}>
                 {item.plan === config.plan.free ?
@@ -112,7 +111,7 @@ const World = ({ navigation }) => {
 
     return (
         <Layout style={styles.container} >
-            <Modal visible={visible}>
+            <Modal visible={modalVisible}>
                 <Card disabled={true}>
                     <Text>Olá explorador!!! {`\n`}</Text>
                     
@@ -120,7 +119,7 @@ const World = ({ navigation }) => {
                     
                     <Text>{`\n`}</Text>
 
-                    <Button onPress={() => setVisible(false)}>
+                    <Button onPress={() => setModalVisible(false)}>
                         Voltar
                     </Button>
                 </Card>
