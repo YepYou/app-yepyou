@@ -7,6 +7,7 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 
 import Loading from '../components/Loading';
+import NoDataFound from '../components/NoDataFound';
 import WithoutConnection from '../components/WithoutConnection';
 
 import api from '../services/api';
@@ -69,17 +70,11 @@ const World = () => {
     }
 
     if (!haveConnetion) {
-        return (
-            <WithoutConnection getData={getWorlds}/>
-        );
+        return <WithoutConnection getData={getWorlds} />;
     }
 
     if (!worlds) {
-        return (
-            <Layout style={styles.container}>
-                <Text category='h4'>No data found :(</Text>
-            </Layout>
-        );
+        return <NoDataFound getData={getWorlds} />;
     }
 
     const renderItem = ({ item }) => {
