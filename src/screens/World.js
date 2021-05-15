@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { Avatar, Button, Card, Layout, List, Modal, Text } from '@ui-kitten/components';
+import { Avatar, Button, Card, Layout, List, Modal, StyleService, Text, useStyleSheet } from '@ui-kitten/components';
 
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 
+import Header from '../components/Header';
 import Loading from '../components/Loading';
 import NoDataFound from '../components/NoDataFound';
 import WithoutConnection from '../components/WithoutConnection';
 
 import api from '../services/api';
 import config from '../config';
+import colors from '../styles/palette.json';
 
 const World = () => {
     const navigation = useNavigation();
+    const styles = useStyleSheet(themedStyles);
 
     const [loading, setLoading] = useState(false);
     const [worlds, setWorlds] = useState([]);
-    const [world, setWorld] = useState(null);
     const [haveConnetion, setHaveConnection] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -27,12 +29,6 @@ const World = () => {
     useEffect(() => {
         getWorlds();
     }, []);
-
-    useEffect(() => {
-        if (world && world.plan === config.plan.free) {
-            navigation.navigate('Missions', { world });
-        }
-    }, [world]);
 
     async function loadMoreWorlds() {
 		if (worlds.length <= totalPages) {
@@ -81,12 +77,14 @@ const World = () => {
         return(
             <TouchableOpacity style={styles.cardWorld} onPress={() => {
                 if (item.plan === config.plan.free) {
-                    setWorld(item);
+                    if (item && item.plan == config.plan.free) {
+                        navigation.navigate('Missões', { world: item });
+                    }
                 } else {
                     setModalVisible(true);
                 }
             }}>
-                {item.plan === config.plan.free ?
+                {item.plan == config.plan.free ?
                     <Image style={styles.cardWorldImage} source={{ uri: `${item.url}` }} />
                 :
                     <>
@@ -99,45 +97,54 @@ const World = () => {
     };
 
     return (
-        <Layout style={styles.container} >
-            <Modal visible={modalVisible}>
-                <Card disabled={true}>
-                    <Text>Olá explorador!!! {`\n`}</Text>
-                    
-                    <Text>Para embarcar nesta viagem você vai precisar de uma conta Premium! 🚀</Text>
-                    
-                    <Text>{`\n`}</Text>
+        <>
+            <Header title="Mundos" />
 
-                    <Button onPress={() => setModalVisible(false)}>
-                        Voltar
-                    </Button>
-                </Card>
-            </Modal>
+            <Layout style={styles.container} >
+                <Modal backdropStyle={styles.backdropModal} visible={modalVisible}>
+                    <Card disabled={true}>
+                        <Text>Olá explorador!!! {`\n`}</Text>
+                        
+                        <Text>Para embarcar nesta viagem você vai precisar de uma conta Premium! 🚀</Text>
+                        
+                        <Text>{`\n`}</Text>
 
-            <List 
-                refreshing={false}
-                style={styles.list}
-                data={worlds} 
-                renderItem={renderItem}
-                onRefresh={() => getWorlds()}
-                onEndReachedThreshold={0.1}
-				onEndReached={loadMoreWorlds}
-            />
-        </Layout>
+                        <Button onPress={() => setModalVisible(false)}>
+                            Voltar
+                        </Button>
+                    </Card>
+                </Modal>
+
+                <List 
+                    refreshing={false}
+                    style={styles.list}
+                    data={worlds} 
+                    renderItem={renderItem}
+                    onRefresh={() => getWorlds()}
+                    onEndReachedThreshold={0.1}
+                    onEndReached={loadMoreWorlds}
+                />
+            </Layout>
+        </>
     );
 };
 
-const styles = StyleSheet.create({
+const themedStyles = StyleService.create({
+    backdropModal: {
+        backgroundColor: colors.backdropModal
+    },
+    
 	container: {
 		alignItems: 'center',
 		flex: 1,
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 
     list: {
 		flex: 1,
 		height: '100%',
-		width: '100%'
+		width: '100%',
+        backgroundColor: colors.backgroundScreen
 	},
 
     cardWorld: {
