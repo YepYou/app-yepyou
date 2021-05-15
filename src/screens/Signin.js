@@ -125,6 +125,7 @@ const Signin = () => {
               />
 
                 <Button
+                    status="info"
                     disabled={!name || !birth}
                     style={styles.button}
                     onPress={handleSubmit}
@@ -174,7 +175,7 @@ const themedStyles = StyleService.create({
         borderRadius: 45,
         paddingHorizontal: 35,
         paddingVertical: 10,
-        backgroundColor: 'color-info-default'
+        backgroundColor: 'color-primary-default'
     },
 
     button: {
@@ -191,7 +192,7 @@ const themedStyles = StyleService.create({
 
     pickerControl: {
         borderRadius: 45,
-        backgroundColor: 'color-info-default',
+        backgroundColor: 'color-primary-default',
         color: 'white'
     },
 

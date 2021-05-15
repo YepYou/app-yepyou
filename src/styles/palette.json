@@ -9,6 +9,9 @@
     "balloonBackground": "#CDCDCD",
     
     "backgroundScreen": "#FFFFF",
-    "backdropModal": "rgba(0, 0, 0, 0.5)"
+    "backdropModal": "rgba(0, 0, 0, 0.5)",
+    "backgroundMenu": "#D6D6D6",
+    
+    "menuSelected": "#369CD4"
 }
   
