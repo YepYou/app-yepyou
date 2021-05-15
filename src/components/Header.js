@@ -39,7 +39,7 @@ const themedStyles = StyleService.create({
 	container: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'color-primary-500',
+        backgroundColor: 'color-info-500',
         height: 170,
         width: "100%"
 	},
