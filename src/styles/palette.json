@@ -4,6 +4,11 @@
     "info": "#fa67aa",
     "extra": "#cc5dbc",
     
-    "headerText": "#369CD4"
+    "headerText": "#369CD4",
+    "headerTitle": "#706F6F",
+    "balloonBackground": "#CDCDCD",
+    
+    "backgroundScreen": "#FFFFF",
+    "backdropModal": "rgba(0, 0, 0, 0.5)"
 }
   
