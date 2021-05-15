@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
 import { useTheme } from '@ui-kitten/components';
 
 import { World, Missions } from '../../screens';
@@ -10,33 +10,19 @@ function WorldStack() {
     const theme = useTheme();
 
     return (
-        <Stack.Navigator 
+        <Stack.Navigator
             screenOptions={{
-                headerStyle: {
-                    backgroundColor: theme['color-primary-500'],
-                    height: 140
-                },
-                headerTintColor: colors.headerText,
-                headerTitleStyle: {
-                    alignSelf: 'center',
-                    fontWeight: 'bold'
-                }
+                headerShown: false,
             }}>
 
             <Stack.Screen
                 name="World" 
                 component={World}
-                options={{
-                    title: 'Mundos' 
-                }}
             />
 
             <Stack.Screen
-                name="Missions" 
+                name="Missões" 
                 component={Missions}
-                options={{
-                    title: 'Missões' 
-                }}
             />
         </Stack.Navigator>
     );
