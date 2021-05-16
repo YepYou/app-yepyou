@@ -8,10 +8,7 @@ const Profile = () => {
     const { signout: ctxSignout, user } = useContext(AuthContext);
 
     async function handleSignout() {
-        await AsyncStorage.removeItem('access-token');
-        await AsyncStorage.removeItem('client');
-        await AsyncStorage.removeItem('uid');
-        await AsyncStorage.removeItem('user');
+        await AsyncStorage.removeItem('@yepyou:user');
 
         ctxSignout();
     }
