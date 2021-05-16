@@ -84,13 +84,12 @@ const World = () => {
                     setModalVisible(true);
                 }
             }}>
-                {item.plan == config.plan.free ?
-                    <Image style={styles.cardWorldImage} source={{ uri: `${item.url}` }} />
-                :
-                    <>
-                        <Image style={[styles.cardWorldImage, styles.cardWorldImagePremium]} source={{ uri: `${item.url}` }} />
-                        <Avatar style={styles.cardWorldAvatar} source={require('../../assets/padlock.png')}/>
-                    </>
+                <Image style={styles.cardWorldImage} source={{ uri: `${item.url}` }} />
+                {item.plan !== config.plan.free &&
+                    <Avatar 
+                        style={styles.cardWorldAvatar} 
+                        source={require('../../assets/padlock.png')}
+                    />
                 }
             </TouchableOpacity>
         );
@@ -157,10 +156,6 @@ const themedStyles = StyleService.create({
         width: '95%',
         height: 160,
         borderRadius: 14
-    },
-
-    cardWorldImagePremium: {
-        opacity: 0.5
     },
 
     cardWorldAvatar: {
