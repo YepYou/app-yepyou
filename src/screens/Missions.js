@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Card, Layout, List, Modal, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
-import { Dimensions, Image, TouchableOpacity } from 'react-native';
+import { Avatar, Button, Card, Layout, List, Modal, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { Bar } from 'react-native-progress';
 import NetInfo from "@react-native-community/netinfo";
 import Balloon from "react-native-balloon";
 
@@ -59,12 +60,11 @@ const Missions = () => {
 
         if (netinfo.isConnected) {
             setHaveConnection(true);
-            /*
+
             const { data: missionsData } = await api.get('/v1/missions');
             
             setTotalPages(missionsData.totalPages);
             setMissions(missionsData.docs);
-            */
         } else {
             setHaveConnection(false);
         }
@@ -95,20 +95,52 @@ const Missions = () => {
                     setModalVisible(true);
                 }
             }}>
-                {item.plan === config.plan.free ?
-                    <Image style={styles.cardMissionImage} source={{ uri: `${item.url}` }} />
-                :
-                    <>
-                        <Image 
-                            style={[styles.cardMissionImage, styles.cardMissionImagePremium]} 
-                            source={{ uri: `${item.url}` }} 
-                        />
+                <Layout style={styles.cardMissionBlock}>
+                    <Image 
+                        style={styles.cardMissionBlockImage} 
+                        source={{ uri: `${item.url}` }} 
+                    />
+                        
+                    {item.plan !== config.plan.free &&
                         <Avatar 
                             style={styles.cardMissionAvatar} 
                             source={require('../../assets/padlock.png')}
                         />
-                    </>
-                }
+                    }
+                </Layout>
+                <Layout 
+                    style={[styles.cardMissionBlock, styles.cardMissionBlockContent]}
+                >
+                    <Layout style={styles.cardMissionBlockContentBar}>
+                        <Text style={styles.cardMissionBlockContentBarText}>Tempo Estimado</Text>
+                        <Bar 
+                            style={styles.cardMissionBlockContentBarProgress}
+                            progress={item.estimatedTime / 10} 
+                            width={150} 
+                            color={colors.barColorPurple}
+                        />
+                    </Layout>
+
+                     <Layout style={styles.cardMissionBlockContentBar}>
+                        <Text style={styles.cardMissionBlockContentBarText}>Materiais</Text>
+                        <Bar 
+                            style={styles.cardMissionBlockContentBarProgress}
+                            progress={item.materialUse / 10} 
+                            width={150} 
+                            color={colors.barColorBlue}
+                        />
+                    </Layout>
+
+                    <Layout style={styles.cardMissionBlockContentBar}>
+                        <Text style={styles.cardMissionBlockContentBarText}>Dificuldade</Text>
+                        <Bar 
+                            style={styles.cardMissionBlockContentBarProgress}
+                            progress={item.difficulty / 10}  
+                            width={150} 
+                            color={colors.barColorPink}
+                        />
+                    </Layout>
+                </Layout>
             </TouchableOpacity>
         );
     };
@@ -116,6 +148,7 @@ const Missions = () => {
     return (
         <>
             <Header goBack />
+            
             <Layout style={styles.header}>
                 <Layout style={styles.headerBlock}>
                     <Image style={styles.headerImage} source={imagePersonagem} />
@@ -135,21 +168,11 @@ const Missions = () => {
                 </Layout>
             </Layout>
 
-            <Layout style={styles.container} >
-                <Layout style={styles.header}>
-                    <Text category='h1' style={styles.headerText}>MISSÕES</Text>
-                </Layout>
+            <Layout>
+                <Text category='h1' style={styles.headerText}>MISSÕES</Text>
+            </Layout>
 
-                <List 
-                    refreshing={false}
-                    style={styles.list}
-                    data={missions} 
-                    renderItem={renderItem}
-                    onRefresh={() => getMissions()}
-                    onEndReachedThreshold={0.1}
-                    onEndReached={loadMoreMissions}
-                />
-            
+            <Layout style={styles.container} >
                 <Modal backdropStyle={styles.backdropModal} visible={modalVisible}>
                     <Card disabled={true}>
                         <Text>Olá explorador!!! {`\n`}</Text>
@@ -163,6 +186,16 @@ const Missions = () => {
                         </Button>
                     </Card>
                 </Modal>
+                
+                <List 
+                    refreshing={false}
+                    style={styles.list}
+                    data={missions} 
+                    renderItem={renderItem}
+                    onRefresh={() => getMissions()}
+                    onEndReachedThreshold={0.1}
+                    onEndReached={loadMoreMissions}
+                />
             </Layout>
         </>
     );
@@ -187,7 +220,7 @@ const themedStyles = StyleService.create({
         width: '100%',
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        top: -40,
+        top: -50,
     },
 
     headerBalloon: {
@@ -197,12 +230,15 @@ const themedStyles = StyleService.create({
 
     headerBalloonText: {
         color: colors.headerTitle,
-        fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 'bold'
     },
 
     headerText: {
-        color: colors.headerTitle 
+        alignSelf: 'center',
+        backgroundColor: 'transparent',
+        color: colors.headerTitle,
+        top: -30
 	},
 
     headerImage: {
@@ -213,6 +249,7 @@ const themedStyles = StyleService.create({
     },
 
     list: {
+        backgroundColor: colors.backgroundScreen,
 		flex: 1,
 		height: '100%',
 		width: '100%'
@@ -220,24 +257,40 @@ const themedStyles = StyleService.create({
 
     cardMission: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        paddingTop: 20
+        paddingTop: 10,
+        paddingHorizontal: 20
     },
 
-    cardMissionImage: {
-        width: '95%',
-        height: 160,
-        borderRadius: 14
+    cardMissionBlock: {
+        flex: 1,
     },
 
-    cardMissionImagePremium: {
-        opacity: 0.5
+    cardMissionBlockImage: {
+        borderRadius: 14,
+        height: 180,
+        width: 180,
+    },
+
+    cardMissionBlockContent: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    cardMissionBlockContentBar: {
+        marginBottom: 20
+    },
+
+    cardMissionBlockContentBarText: {
+        fontSize: 11,
+        marginLeft: 10,
+        textTransform: 'uppercase',
+        color: colors.headerTitle
     },
 
     cardMissionAvatar: {
         bottom: 10,
         position: 'absolute',
-        right: 25
+        left: 130
     }
 });
 
