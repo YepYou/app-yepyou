@@ -1,5 +1,5 @@
 {
-    "primary": "#8955c6",
+    "primary": "#560BA0",
     "secundary": "#A3E9FF",
     "info": "#fa67aa",
     "extra": "#cc5dbc",
@@ -12,6 +12,10 @@
     "backdropModal": "rgba(0, 0, 0, 0.5)",
     "backgroundMenu": "#D6D6D6",
     
-    "menuSelected": "#369CD4"
+    "menuSelected": "#369CD4",
+
+    "barColorBlue": "#369CD4",
+    "barColorPink": "#EA2580",
+    "barColorPurple": "#560BA0"
 }
   
