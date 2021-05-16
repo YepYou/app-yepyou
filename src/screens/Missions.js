@@ -112,10 +112,10 @@ const Missions = () => {
                     style={[styles.cardMissionBlock, styles.cardMissionBlockContent]}
                 >
                     <Layout style={styles.cardMissionBlockContentBar}>
-                        <Text style={styles.cardMissionBlockContentBarText}>Tempo Estimado</Text>
+                        <Text style={styles.cardMissionBlockContentBarText}>Envolvimento dos pais</Text>
                         <Bar 
                             style={styles.cardMissionBlockContentBarProgress}
-                            progress={item.estimatedTime / 10} 
+                            progress={(item.parentInvolvement * 2) / 10} 
                             width={150} 
                             color={colors.barColorPurple}
                         />
@@ -125,7 +125,7 @@ const Missions = () => {
                         <Text style={styles.cardMissionBlockContentBarText}>Materiais</Text>
                         <Bar 
                             style={styles.cardMissionBlockContentBarProgress}
-                            progress={item.materialUse / 10} 
+                            progress={(item.materialUse * 2) / 10} 
                             width={150} 
                             color={colors.barColorBlue}
                         />
@@ -135,7 +135,7 @@ const Missions = () => {
                         <Text style={styles.cardMissionBlockContentBarText}>Dificuldade</Text>
                         <Bar 
                             style={styles.cardMissionBlockContentBarProgress}
-                            progress={item.difficulty / 10}  
+                            progress={(item.difficulty * 2) / 10}  
                             width={150} 
                             color={colors.barColorPink}
                         />
