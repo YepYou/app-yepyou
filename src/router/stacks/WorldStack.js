@@ -1,13 +1,9 @@
 import React from 'react';
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
-import { useTheme } from '@ui-kitten/components';
-
+import { createStackNavigator } from '@react-navigation/stack';
 import { World, Missions } from '../../screens';
-import colors from '../../styles/palette.json';
 
 function WorldStack() {
     const Stack = createStackNavigator();
-    const theme = useTheme();
 
     return (
         <Stack.Navigator

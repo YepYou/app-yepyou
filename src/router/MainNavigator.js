@@ -1,65 +1,94 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Icon, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { View, Image, StyleSheet } from 'react-native';
 
 import { WorldStack, ProfileStack } from './stacks';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import imageLogBook from '../../assets/menuIcons/logBook.png';
 import imageExplorerGuide from '../../assets/menuIcons/explorerGuide.png';
+import imageProfile from '../../assets/menuIcons/profile.png';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+import colors from '../styles/palette.json';
 
-const WorldIcon = (props) => (
-    <Icon {...props} name='globe-outline'/>
-);
+const Tab = createBottomTabNavigator();
 
-const Profile = (props) => (
-    <Icon {...props} name='person-outline'/>
-);
-  
 const LogBookIcon = (props) => (
-    <Image {...props} source={imageLogBook}/>
+    <Image resizeMode="contain" {...props} style={styles.iconImage} source={imageLogBook}/>
+);
+
+const ProfileIcon = (props) => (
+    <Image resizeMode="contain" {...props} style={styles.iconImageProfile} source={imageProfile}/>
 );
 
 const ExplorerGuideIcon = (props) => (
-    <Image {...props} source={imageExplorerGuide}/>
+    <Image resizeMode="contain" {...props} style={styles.iconImage} source={imageExplorerGuide}/>
 );
 
-const BottomTabBar = ({ navigation, state }) => {
-    const styles = useStyleSheet(themedStyles);
-
+function MyTabs() {
     return (
-        <BottomNavigation
-            style={styles.menuIcons}
-            selectedIndex={state.index}
-            onSelect={(index) => navigation.navigate(state.routeNames[index])}>
-                <BottomNavigationTab icon={WorldIcon}/>
-                <BottomNavigationTab disabled icon={LogBookIcon}/>
-                <BottomNavigationTab disabled icon={ExplorerGuideIcon}/>
-                <BottomNavigationTab icon={Profile}/>
-        </BottomNavigation>
-    );
-};
+        <Tab.Navigator
+            tabBarOptions={{
+                showLabel: false,
+                style: {
+                    backgroundColor: colors.backgroundMenu,
+                    paddingBottom: 3
+                }
+            }}
+        >
+            <Tab.Screen 
+                name="LogBook" 
+                component={WorldStack}
+                options={{
+                    tabBarIcon: ({ tintColor }) => (
+                        <ExplorerGuideIcon color={tintColor} />
+                    )
+                }}
+            />
 
-// TODO - The Screen Navigator Profile2 and Profile3 will be change to others screens
-const TabNavigator = () => (
-    <Navigator tabBar={props => <BottomTabBar {...props} />}>
-        <Screen name="World" component={WorldStack} />
-        <Screen name="Profile2" component={ProfileStack} />
-        <Screen name="Profile3" component={ProfileStack} />
-        <Screen name="Profile" component={ProfileStack} />
-    </Navigator>
-);
+            <Tab.Screen 
+                name="Profile" 
+                component={ProfileStack}
+                options={() => ({
+                    tabBarIcon: ({tintColor}) => (
+                        <ProfileIcon style={styles.iconImageProfile} color={tintColor} />
+                    )
+                })}
+            />
+            
+            <Tab.Screen 
+                name="ExplorerGuide" 
+                component={ProfileStack} 
+                options={{
+                    tabBarIcon: () => (
+                        <LogBookIcon />
+                    )
+                }}
+            />
+        </Tab.Navigator>
+    );
+}
 
 const MainNavigator = () => (
-    <TabNavigator />
+        <MyTabs />
 );
 
-const themedStyles = StyleService.create({
-    menuIcons: {
-        height: 90,
-		backgroundColor: 'color-basic-200'
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+
+    iconImage: {
+        width: 48,
+        height: 48
     },
+
+    iconImageProfile: {
+        height: 96,
+        marginBottom: 60,
+        width: 96
+    }
 });
 
 export default MainNavigator;
