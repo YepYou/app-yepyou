@@ -102,7 +102,7 @@ const World = () => {
             <Layout style={styles.container} >
                 <Modal backdropStyle={styles.backdropModal} visible={modalVisible}>
                     <Card disabled={true}>
-                        <Text>Olá explorador!!! {`\n`}</Text>
+                        <Text>Olá Yepper!!! {`\n`}</Text>
                         
                         <Text>Para embarcar nesta viagem você vai precisar de uma conta Premium! 🚀</Text>
                         

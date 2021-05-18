@@ -175,7 +175,7 @@ const Missions = () => {
             <Layout style={styles.container} >
                 <Modal backdropStyle={styles.backdropModal} visible={modalVisible}>
                     <Card disabled={true}>
-                        <Text>Olá explorador!!! {`\n`}</Text>
+                        <Text>Olá Yepper!!! {`\n`}</Text>
                         
                         <Text>Para aceitar esta missão você vai precisar de uma conta Premium! 🚀</Text>
                         
