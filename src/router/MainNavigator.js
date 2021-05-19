@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 import { WorldStack, ProfileStack } from './stacks';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -36,7 +36,13 @@ function MyTabs() {
             }}
         >
             <Tab.Screen 
-                name="LogBook" 
+                listeners={{
+                    tabPress: e => {
+                        // Prevent default action
+                        e.preventDefault();
+                    }
+                }}
+                name="ExplorerGuide" 
                 component={WorldStack}
                 options={{
                     tabBarIcon: ({ tintColor }) => (
@@ -49,6 +55,7 @@ function MyTabs() {
                 name="Profile" 
                 component={ProfileStack}
                 options={() => ({
+                    tabBarVisible: false,
                     tabBarIcon: ({tintColor}) => (
                         <ProfileIcon style={styles.iconImageProfile} color={tintColor} />
                     )
@@ -56,7 +63,13 @@ function MyTabs() {
             />
             
             <Tab.Screen 
-                name="ExplorerGuide" 
+                listeners={{
+                    tabPress: e => {
+                        // Prevent default action
+                        e.preventDefault();
+                    }
+                }}
+                name="LogBook" 
                 component={ProfileStack} 
                 options={{
                     tabBarIcon: () => (
@@ -69,7 +82,7 @@ function MyTabs() {
 }
 
 const MainNavigator = () => (
-        <MyTabs />
+    <MyTabs />
 );
 
 const styles = StyleSheet.create({
