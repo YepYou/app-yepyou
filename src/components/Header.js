@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { Layout, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
@@ -28,7 +28,7 @@ const themedStyles = StyleService.create({
     backButtom: {
         alignSelf: 'flex-start',
         left: 30,
-        top: 50
+        top: Dimensions.get('window').height / 45
     },
 
     backButtomIcon: {
@@ -40,12 +40,11 @@ const themedStyles = StyleService.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'color-info-500',
-        height: 170,
+        height: Dimensions.get('window').height / 5,
         width: "100%"
 	},
 
     text: {
-        marginTop: 70,
         color: colors.headerText,
         fontSize: 36,
         fontWeight: 'bold',
