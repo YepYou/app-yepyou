@@ -1,106 +1,72 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-
-import { WorldStack, ProfileStack } from './stacks';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomNavigation, BottomNavigationTab, Icon, StyleService, useStyleSheet } from '@ui-kitten/components';
+
+import { WorldStack, MenuStack } from './stacks';
 
 import imageLogBook from '../../assets/menuIcons/logBook.png';
 import imageExplorerGuide from '../../assets/menuIcons/explorerGuide.png';
-import imageProfile from '../../assets/menuIcons/profile.png';
+import imageMenu from '../../assets/menuIcons/menu.png';
 
 import colors from '../styles/palette.json';
 
-const Tab = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 const LogBookIcon = (props) => (
     <Image resizeMode="contain" {...props} style={styles.iconImage} source={imageLogBook}/>
 );
 
-const ProfileIcon = (props) => (
-    <Image resizeMode="contain" {...props} style={styles.iconImageProfile} source={imageProfile}/>
+const MenuIcon = (props) => (
+    <Image resizeMode="contain" {...props} style={styles.iconImageProfile} source={imageMenu}/>
 );
 
 const ExplorerGuideIcon = (props) => (
     <Image resizeMode="contain" {...props} style={styles.iconImage} source={imageExplorerGuide}/>
 );
 
-function MyTabs() {
-    return (
-        <Tab.Navigator
-            tabBarOptions={{
-                showLabel: false,
-                style: {
-                    backgroundColor: colors.backgroundMenu,
-                    paddingBottom: 3
-                }
-            }}
-        >
-            <Tab.Screen 
-                listeners={{
-                    tabPress: e => {
-                        // Prevent default action
-                        e.preventDefault();
-                    }
-                }}
-                name="ExplorerGuide" 
-                component={WorldStack}
-                options={{
-                    tabBarIcon: ({ tintColor }) => (
-                        <ExplorerGuideIcon color={tintColor} />
-                    )
-                }}
-            />
+const BottomTabBar = ({ navigation, state }) => {
+    // hide menu when central option is open
+    if (state.index == 1) return false;
 
-            <Tab.Screen 
-                name="Profile" 
-                component={ProfileStack}
-                options={() => ({
-                    tabBarVisible: false,
-                    tabBarIcon: ({tintColor}) => (
-                        <ProfileIcon style={styles.iconImageProfile} color={tintColor} />
-                    )
-                })}
-            />
-            
-            <Tab.Screen 
-                listeners={{
-                    tabPress: e => {
-                        // Prevent default action
-                        e.preventDefault();
-                    }
-                }}
-                name="LogBook" 
-                component={ProfileStack} 
-                options={{
-                    tabBarIcon: () => (
-                        <LogBookIcon />
-                    )
-                }}
-            />
-        </Tab.Navigator>
+    return (
+        <BottomNavigation
+            style={styles.menuIcons}
+            appearance='noIndicator'
+            selectedIndex={state.index}
+            onSelect={(index) => navigation.navigate(state.routeNames[index])}>
+                <BottomNavigationTab disabled icon={ExplorerGuideIcon}/>
+                <BottomNavigationTab icon={MenuIcon}/>
+                <BottomNavigationTab disabled icon={LogBookIcon}/>
+        </BottomNavigation>
     );
-}
+};
+
+const TabNavigator = () => (
+    <Navigator tabBar={props => <BottomTabBar {...props} />}>
+        <Screen name="World" component={WorldStack} />
+        <Screen name="Profile2" component={MenuStack} />
+        <Screen name="Profile3" component={WorldStack} />
+    </Navigator>
+);
 
 const MainNavigator = () => (
-    <MyTabs />
+    <TabNavigator />
 );
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
+    menuIcons: {
+        backgroundColor: colors.backgroundMenu
+    },
 
     iconImage: {
-        width: 48,
-        height: 48
+        width: 36,
+        height: 36
     },
 
     iconImageProfile: {
-        height: 96,
-        marginBottom: 60,
-        width: 96
+        height: 72,
+        width: 72
     }
 });
 
