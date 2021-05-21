@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Icon, StyleService, useStyleSheet } from '@ui-kitten/components';
+import { BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
 
 import { WorldStack, MenuStack } from './stacks';
 
