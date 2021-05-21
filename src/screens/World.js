@@ -78,7 +78,7 @@ const World = () => {
             <TouchableOpacity style={styles.cardWorld} onPress={() => {
                 if (item.plan === config.plan.free) {
                     if (item && item.plan == config.plan.free) {
-                        navigation.navigate('Missões', { world: item });
+                        navigation.navigate('Missions', { world: item });
                     }
                 } else {
                     setModalVisible(true);
