@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { World, Missions, Profile } from '../../screens';
+import { World, Missions } from '../../screens';
 
 function WorldStack() {
     const Stack = createStackNavigator();
