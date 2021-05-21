@@ -95,9 +95,9 @@ const Missions = () => {
                     setModalVisible(true);
                 }
             }}>
-                <Layout>
+                <Layout style={styles.cardMissionBlock}>
                     <Image 
-                        resizeMode="contain"
+                        resizeMode="cover"
                         style={styles.cardMissionBlockImage} 
                         source={{ uri: `${item.url}` }} 
                     />
@@ -109,6 +109,7 @@ const Missions = () => {
                         />
                     }
                 </Layout>
+
                 <Layout style={styles.cardMissionBlockContent}>
                     <Layout style={styles.cardMissionBlockContentBar}>
                         <Text style={styles.cardMissionBlockContentBarText}>Envolvimento dos pais</Text>
@@ -120,7 +121,7 @@ const Missions = () => {
                         />
                     </Layout>
 
-                     <Layout style={styles.cardMissionBlockContentBar}>
+                    <Layout style={styles.cardMissionBlockContentBar}>
                         <Text style={styles.cardMissionBlockContentBarText}>Materiais</Text>
                         <Bar 
                             style={styles.cardMissionBlockContentBarProgress}
@@ -146,7 +147,7 @@ const Missions = () => {
 
     return (
         <>
-            <Header goBack />
+            <Header title="Missões" goBack />
             
             <Layout style={styles.header}>
                 <Layout style={styles.headerBlock}>
@@ -165,10 +166,6 @@ const Missions = () => {
                         </Text>
                     </Balloon>
                 </Layout>
-            </Layout>
-
-            <Layout>
-                <Text category='h1' style={styles.headerText}>MISSÕES</Text>
             </Layout>
 
             <Layout style={styles.container} >
@@ -210,7 +207,6 @@ const themedStyles = StyleService.create({
 	},
 
     header: {
-        width: '100%',
         flexDirection: 'row',
         justifyContent: 'center'
 	},
@@ -219,7 +215,7 @@ const themedStyles = StyleService.create({
         width: '100%',
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        top: -50,
+        top: -35,
     },
 
     headerBalloon: {
@@ -248,46 +244,49 @@ const themedStyles = StyleService.create({
     },
 
     list: {
+        top: -30,
         backgroundColor: colors.backgroundScreen,
 		flex: 1,
-		height: '100%',
-		width: '100%'
 	},
 
     cardMission: {
+        paddingHorizontal: 10,
         flexDirection: 'row',
-        paddingTop: 10,
-        paddingHorizontal: 20
+        paddingBottom: 10
     },
 
+    cardMissionBlock: {
+        flex:1,
+        width: '100%',
+        height: Dimensions.get('window').width / 4
+    },
 
     cardMissionBlockImage: {
-        borderRadius: 45,
-        height: 150,
-        width: 190,
+        borderRadius: 15,
+        width: '100%',
+        height: Dimensions.get('window').width / 4
     },
 
     cardMissionBlockContent: {
-        alignItems: 'center',
-        justifyContent: 'center'
+        paddingHorizontal: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     cardMissionBlockContentBar: {
-        marginBottom: 20,
-        width: '90%'
+        marginBottom: 10
     },
 
     cardMissionBlockContentBarText: {
         fontSize: 11,
-        marginLeft: 10,
         textTransform: 'uppercase',
         color: colors.headerTitle
     },
 
     cardMissionAvatar: {
-        bottom: 10,
         position: 'absolute',
-        left: 130
+        right: 5,
+        bottom: 5
     }
 });
 
