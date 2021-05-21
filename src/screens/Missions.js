@@ -95,8 +95,9 @@ const Missions = () => {
                     setModalVisible(true);
                 }
             }}>
-                <Layout style={styles.cardMissionBlock}>
+                <Layout>
                     <Image 
+                        resizeMode="contain"
                         style={styles.cardMissionBlockImage} 
                         source={{ uri: `${item.url}` }} 
                     />
@@ -108,9 +109,7 @@ const Missions = () => {
                         />
                     }
                 </Layout>
-                <Layout 
-                    style={[styles.cardMissionBlock, styles.cardMissionBlockContent]}
-                >
+                <Layout style={styles.cardMissionBlockContent}>
                     <Layout style={styles.cardMissionBlockContentBar}>
                         <Text style={styles.cardMissionBlockContentBarText}>Envolvimento dos pais</Text>
                         <Bar 
@@ -151,7 +150,7 @@ const Missions = () => {
             
             <Layout style={styles.header}>
                 <Layout style={styles.headerBlock}>
-                    <Image style={styles.headerImage} source={imagePersonagem} />
+                    <Image resizeMode="contain" style={styles.headerImage} source={imagePersonagem} />
                     <Balloon
                         triangleOffset="26%"
                         borderColor="#CDCDCD"
@@ -261,14 +260,11 @@ const themedStyles = StyleService.create({
         paddingHorizontal: 20
     },
 
-    cardMissionBlock: {
-        flex: 1,
-    },
 
     cardMissionBlockImage: {
-        borderRadius: 14,
-        height: 180,
-        width: 180,
+        borderRadius: 45,
+        height: 150,
+        width: 190,
     },
 
     cardMissionBlockContent: {
@@ -277,7 +273,8 @@ const themedStyles = StyleService.create({
     },
 
     cardMissionBlockContentBar: {
-        marginBottom: 20
+        marginBottom: 20,
+        width: '90%'
     },
 
     cardMissionBlockContentBarText: {
