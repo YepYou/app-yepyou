@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     },
 
     iconImageProfile: {
-        height: 72,
-        width: 72
+        height: 60,
+        width: 60
     }
 });
 
