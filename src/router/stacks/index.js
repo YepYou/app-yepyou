@@ -1,3 +1,3 @@
 export { default as WorldStack } from './WorldStack';
-export { default as ProfileStack } from './ProfileStack';
+export { default as MenuStack } from './MenuStack';
 export { default as SigninStack } from './SigninStack';
