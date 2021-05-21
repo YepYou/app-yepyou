@@ -28,7 +28,7 @@ const themedStyles = StyleService.create({
     backButtom: {
         alignSelf: 'flex-start',
         left: 30,
-        top: Dimensions.get('window').height / 45
+        top: Dimensions.get('window').height / 19
     },
 
     backButtomIcon: {
@@ -40,7 +40,7 @@ const themedStyles = StyleService.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'color-info-500',
-        height: Dimensions.get('window').height / 5,
+        height: 120,
         width: "100%"
 	},
 
