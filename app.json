@@ -18,11 +18,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "us.yepyou",
-      "buildNumber": "0.1.0"
+      "buildNumber": "1"
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": []
 
     },
