@@ -310,7 +310,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.yepyou;
+				PRODUCT_BUNDLE_IDENTIFIER = "us.b-lab.yepyou";
 				PRODUCT_NAME = yepyou;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -334,7 +334,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.yepyou;
+				PRODUCT_BUNDLE_IDENTIFIER = "us.b-lab.yepyou";
 				PRODUCT_NAME = yepyou;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

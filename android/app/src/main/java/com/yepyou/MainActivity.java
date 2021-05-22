@@ -1,4 +1,4 @@
-package com.yepyou;
+package us.yepyou;
 
 import android.os.Bundle;
 

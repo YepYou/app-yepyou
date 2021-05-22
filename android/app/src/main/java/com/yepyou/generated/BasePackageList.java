@@ -1,4 +1,4 @@
-package com.yepyou.generated;
+package us.yepyou.generated;
 
 import java.util.Arrays;
 import java.util.List;
