@@ -17,7 +17,7 @@ const Profile = () => {
     const navigation = useNavigation();
 
     async function handleSignout() {
-        await AsyncStorage.removeItem('@yepyou:user');
+        await AsyncStorage.removeItem('@yepyou_user');
 
         ctxSignout();
     }

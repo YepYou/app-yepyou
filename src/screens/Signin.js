@@ -58,23 +58,24 @@ const Signin = () => {
         setLoading(true);
         const netinfo = await NetInfo.fetch();
 
+        console.log('netinfo', netinfo.isConnected)
         if (netinfo.isConnected) {
             try {
                 const {data: user} = await api.post('/v1/users',
                     { name, birth }
                 );
-
+                
                 if (user) {
-                    const { id: _id, name, birth } = user;
+                    let storageUser = {
+                        id: user._id, 
+                        name: user.name, 
+                        birth: user.birth
+                    };
 
-                    await AsyncStorage.setItem('@yepyou:user', JSON.stringify({
-                        id, name, birth
-                    }));
-
-                    ctxSignin({ id, name, birth });
+                    ctxSignin(storageUser);
+                    storageUser = JSON.stringify({storageUser});
+                    await AsyncStorage.setItem('@yepyou_user', storageUser);
                 }
-
-
             } catch (error) {
                 setError('Não foi possível registrar o usuário no momento.');
             }

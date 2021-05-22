@@ -21,7 +21,7 @@ const AppNavigator = () => {
     }));
 
     async function getUser() {
-        const userStorage = await AsyncStorage.getItem('@yepyou:user');
+        const userStorage = await AsyncStorage.getItem('@yepyou_user');
 
         setUser(userStorage ? JSON.parse(userStorage) : false);
         setIsLoading(false);
@@ -43,14 +43,16 @@ const AppNavigator = () => {
     } 
 
     return (
-        <NavigationContainer>
-            <AuthContext.Provider value={authContext}>
-                { user ?
-                    <MainNavigator />
-                    : <AuthNavigator />
+        <AuthContext.Provider value={authContext}>
+            <NavigationContainer>
+                { 
+                    user ?
+                        <MainNavigator />
+                    : 
+                        <AuthNavigator />
                 }
-            </AuthContext.Provider>
-        </NavigationContainer>
+            </NavigationContainer>
+        </AuthContext.Provider>
     );
 };
 
