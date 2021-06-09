@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { World, Missions } from '../../screens';
+import { MissionConfirm } from '../../screens/mission';
 
 function WorldStack() {
     const Stack = createStackNavigator();
@@ -19,6 +20,11 @@ function WorldStack() {
             <Stack.Screen
                 name="Missions" 
                 component={Missions}
+            />
+            
+            <Stack.Screen
+                name="MissionConfirm" 
+                component={MissionConfirm}
             />
         </Stack.Navigator>
     );
