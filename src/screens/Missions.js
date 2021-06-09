@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Avatar, Button, Card, Layout, List, Modal, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import { Bar } from 'react-native-progress';
@@ -28,6 +29,8 @@ const Missions = () => {
     const [modalVisible, setModalVisible] = React.useState(false);
 
     const route = useRoute();
+    const navigation = useNavigation();
+
     const styles = useStyleSheet(themedStyles);
 
     useEffect(() => {
@@ -91,6 +94,7 @@ const Missions = () => {
             <TouchableOpacity style={styles.cardMission} onPress={() => {
                 if (item.plan === config.plan.free) {
                     setMission(item);
+                    navigation.navigate('MissionConfirm', { mission: item });
                 } else {
                     setModalVisible(true);
                 }
@@ -132,7 +136,7 @@ const Missions = () => {
                     </Layout>
 
                     <Layout style={styles.cardMissionBlockContentBar}>
-                        <Text style={styles.cardMissionBlockContentBarText}>Dificuldade</Text>
+                        <Text style={styles.cardMissionBlockContentBarText}>Desafio</Text>
                         <Bar 
                             style={styles.cardMissionBlockContentBarProgress}
                             progress={(item.difficulty * 2) / 10}  
