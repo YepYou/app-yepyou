@@ -32,7 +32,6 @@ const MissionConfirm = () => {
     const [haveConnetion, setHaveConnection] = useState(true);
 
     const mission = route.params.mission;
-    console.log(mission);
 
     let thematicAreas = mission.thematicArea.split(",");
 
