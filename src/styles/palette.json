@@ -16,6 +16,9 @@
 
     "barColorBlue": "#369CD4",
     "barColorPink": "#EA2580",
-    "barColorPurple": "#560BA0"
+    "barColorPurple": "#560BA0",
+    
+    "backgroundCardColor": "#4cbce3ff",
+    "backgroundTagColor": "#560BA0"
 }
   
