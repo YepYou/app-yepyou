@@ -1,6 +1,6 @@
 const config = {
     api: {
-        url: 'http://api-yepyou-us.umbler.net/'
+        url: 'http://api.yepyou.us/'
     },
     plan: {
         free: 'free'
