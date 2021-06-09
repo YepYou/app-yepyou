@@ -80,7 +80,7 @@ const MissionConfirm = () => {
                             <View style={styles.tagsWrapper}>
                                 {
                                     [...Array(5)].map((x, i) => {
-                                        return <Image style={styles.avatarPoints} source={ mission.parentInvolvement > i ? parentTrue : timer}/>
+                                        return <Image style={styles.avatarPoints} key={i} source={ mission.parentInvolvement > i ? parentTrue : timer}/>
                                     })
                                 } 
                             </View>
