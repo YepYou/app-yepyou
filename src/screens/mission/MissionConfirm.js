@@ -15,8 +15,17 @@ import api from '../../services/api';
 import colors from '../../styles/palette.json';
 
 import missionBottle from '../../../assets/mission-bottle.png';
+
 import timer from '../../../assets/timer.png';
-import parentTrue from '../../../assets/parent.png'
+
+import manOn from '../../../assets/man-on.png';
+import manOff from '../../../assets/man-off.png';
+
+import boxOn from '../../../assets/box-on.png';
+import boxOff from '../../../assets/box-off.png';
+
+import checkOn from '../../../assets/check-on.png';
+import checkOff from '../../../assets/check-off.png';
 
 const MissionBottleImage = (props) => (
     <Image resizeMode="contain" {...props} source={missionBottle}/>
@@ -77,10 +86,10 @@ const MissionConfirm = () => {
                             <View style={styles.missionDetailsRowTitle}>
                                 <Text style={styles.missionDetailsRowTitleText}>Envolvimento dos pais</Text>
                             </View>
-                            <View style={styles.tagsWrapper}>
+                            <View style={styles.iconsWrapper}>
                                 {
                                     [...Array(5)].map((x, i) => {
-                                        return <Image style={styles.avatarPoints} key={i} source={ mission.parentInvolvement > i ? parentTrue : timer}/>
+                                        return <Image style={styles.avatarPoints} key={i} source={ mission.parentInvolvement > i ? manOn : manOff}/>
                                     })
                                 } 
                             </View>
@@ -93,7 +102,9 @@ const MissionConfirm = () => {
                                 <Avatar style={styles.avatarNotes} source={timer}/>
 
                                 <Text style={styles.estimatedTimeText}>
-                                    {moment.duration(mission.estimatedTime, "minutes").hours()}h
+                                    { moment.duration(mission.estimatedTime, "minutes").hours() > 0 &&
+                                        ` ${moment.duration(mission.estimatedTime, "minutes").hours()}h` 
+                                    }
                                     {moment.duration(mission.estimatedTime, "minutes").minutes()}min
                                 </Text>
                             </View>
@@ -105,14 +116,27 @@ const MissionConfirm = () => {
                             <View style={styles.missionDetailsRowTitle}>
                                 <Text style={styles.missionDetailsRowTitleText}>Uso de materiais</Text>
                             </View>
-                            <Text>{mission.materialUse}</Text>
+                            <View style={styles.iconsWrapper}>
+                                {
+                                    [...Array(5)].map((x, i) => {
+                                        return <Image style={styles.avatarPoints} key={i} source={ mission.materialUse > i ? boxOn : boxOff}/>
+                                    })
+                                } 
+                            </View>
+
                        </View>
 
                        <View style={styles.missionDetailsRowContent}>
                             <View style={styles.missionDetailsRowTitle}>
                                 <Text style={styles.missionDetailsRowTitleText}>Desafio</Text>
                             </View>
-                            <Text>{mission.difficulty}</Text>
+                            <View style={styles.iconsWrapper}>
+                                {
+                                    [...Array(5)].map((x, i) => {
+                                        return <Image style={styles.avatarPoints} key={i} source={ mission.difficulty > i ? checkOn : checkOff}/>
+                                    })
+                                } 
+                            </View>
                        </View>
                     </View>
 
@@ -232,6 +256,7 @@ const themedStyles = StyleService.create({
         width: 24,
         height: 24,
         resizeMode: 'contain',
+        marginLeft: 3
     },
 
     avatarNotes: {
@@ -265,7 +290,13 @@ const themedStyles = StyleService.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 11
-    }
+    },
+
+    iconsWrapper: {
+        flexDirection: 'row',
+        marginTop: 10,
+        justifyContent: 'center'
+    },
 });
 
 export default MissionConfirm;
