@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,8 @@ import { Avatar, Button, Card, Layout, List, Modal, Text, StyleService, useStyle
 import { Bar } from 'react-native-progress';
 import NetInfo from "@react-native-community/netinfo";
 import Balloon from "react-native-balloon";
+
+import AuthContext from '../context/AuthContext';
 
 import WithoutConnection from '../components/WithoutConnection';
 import NoDataFound from '../components/NoDataFound';
@@ -20,6 +22,8 @@ import colors from '../styles/palette.json';
 import imagePersonagem from '../../assets/peronsagem1.png';
 
 const Missions = () => {
+    const { user } = useContext(AuthContext);
+
     const [loading, setLoading] = useState(false);
     const [missions, setMissions] = useState([]);
     const [mission, setMission] = useState(null);
@@ -36,12 +40,6 @@ const Missions = () => {
     useEffect(() => {
         getMissions();
     }, []);
-
-    useEffect(() => {
-        if (mission && mission.plan === config.plan.free) {
-            console.log(mission.plan);
-        }
-    }, [mission]);
 
     async function loadMoreMissions() {
 		if (missions.length <= totalPages) {
@@ -93,7 +91,15 @@ const Missions = () => {
         return(
             <TouchableOpacity style={styles.cardMission} onPress={() => {
                 if (item.plan === config.plan.free) {
+                    setLoading(true);
                     setMission(item);
+                    api.post('/v1/UserMissionLog/create', 
+                        {   
+                            user: user.storageUser.id, 
+                            mission: item._id
+                        }
+                    );
+                    setLoading(false);
                     navigation.navigate('MissionConfirm', { mission: item });
                 } else {
                     setModalVisible(true);

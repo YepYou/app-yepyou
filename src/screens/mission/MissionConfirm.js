@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import moment from 'moment';
@@ -27,11 +27,15 @@ import boxOff from '../../../assets/box-off.png';
 import checkOn from '../../../assets/check-on.png';
 import checkOff from '../../../assets/check-off.png';
 
+import AuthContext from '../../context/AuthContext';
+
 const MissionBottleImage = (props) => (
     <Image resizeMode="contain" {...props} source={missionBottle}/>
 );
 
 const MissionConfirm = () => {
+    const { user } = useContext(AuthContext);
+
     const navigation = useNavigation();
     const route = useRoute();
 
@@ -62,6 +66,30 @@ const MissionConfirm = () => {
         setLoading(false);
     }
 
+    async function acceptMission() {
+        setLoading(true);
+
+        const netinfo = await NetInfo.fetch();
+
+        if (netinfo.isConnected) {
+            setHaveConnection(true);
+            api.put('/v1/UserMissionLog/startMission', 
+                {   
+                    user: user.storageUser.id, 
+                    mission
+                }
+            );
+            
+            setLoading(false);
+
+            navigation.navigate('Mission');   
+        } else {
+            setHaveConnection(false);
+        }
+
+        setLoading(false);
+    }
+    
     if (loading) {
         return <Loading />
     }
@@ -162,7 +190,7 @@ const MissionConfirm = () => {
                 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {console.log("submit")}}
+                    onPress={acceptMission}
                 >
                     <Text style={styles.buttonText} >Iniciar</Text>
                 </TouchableOpacity>

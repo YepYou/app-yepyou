@@ -58,7 +58,6 @@ const Signin = () => {
         setLoading(true);
         const netinfo = await NetInfo.fetch();
 
-        console.log('netinfo', netinfo.isConnected)
         if (netinfo.isConnected) {
             try {
                 const {data: user} = await api.post('/v1/users',
