@@ -20,6 +20,7 @@ import config from '../config';
 import colors from '../styles/palette.json';
 
 import imagePersonagem from '../../assets/peronsagem1.png';
+import imageInsinia from '../../assets/insignia-hide.png';
 
 const Missions = () => {
     const { user } = useContext(AuthContext);
@@ -110,6 +111,12 @@ const Missions = () => {
                         resizeMode="cover"
                         style={styles.cardMissionBlockImage} 
                         source={{ uri: `${item.url}` }} 
+                    />
+                    
+                    <Image 
+                        resizeMode="contain"
+                        source={item.finished ? imageInsinia : { uri: `${item.insigniaUrl}` }} 
+                        style={styles.cardMissionBlockInsignia}
                     />
                         
                     {item.plan !== config.plan.free &&
@@ -254,27 +261,43 @@ const themedStyles = StyleService.create({
     },
 
     list: {
-        top: -30,
         backgroundColor: colors.backgroundScreen,
-		flex: 1,
+		flex: 1
 	},
 
     cardMission: {
+        marginTop: 20,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        paddingBottom: 10
+        marginBottom: 30
     },
 
     cardMissionBlock: {
         flex:1,
         width: '100%',
-        height: Dimensions.get('window').width / 4
+        height: Dimensions.get('window').width / 3
     },
 
     cardMissionBlockImage: {
         borderRadius: 15,
         width: '100%',
-        height: Dimensions.get('window').width / 4
+        height: Dimensions.get('window').width / 3
+    },
+
+    cardMissionBlockInsignia:{
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        left: -10,
+        top: -25
+    },
+
+    cardMissionBlockInsigniaGray:{
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        left: -10,
+        top: -25
     },
 
     cardMissionBlockContent: {
