@@ -2,9 +2,9 @@
   "name": "YepYou!",
   "displayName": "YepYou!",
   "expo": {
-    "name": "Yep You",
+    "name": "YepYou!",
     "slug": "yepyou",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "platforms": [
       "android",
       "ios"
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 3,
+      "versionCode": 4,
       "permissions": []
 
     },
