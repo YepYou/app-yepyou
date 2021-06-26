@@ -265,13 +265,14 @@ const themedStyles = StyleService.create({
         backgroundColor: colors.barColorPink,
         borderRadius: 10,
         width: 130,
-        height: 23,
-        bottom: 10
+        height: 35,
+        bottom: 20
     },
 
     buttonText: {
         color: '#fff',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginTop: 7
     },
 
     estimatedTimeWrapper: {
