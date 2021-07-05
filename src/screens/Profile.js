@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Layout, StyleService, Text, useStyleSheet } from '@ui-kitten/components';
+import { Layout, StyleService, Text, useStyleSheet, Modal, Card, Button } from '@ui-kitten/components';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthContext from '../context/AuthContext';
@@ -11,10 +11,12 @@ import imageAvatarFrameProfile from '../../assets/avatarFrameProfile.png';
 import imageLogoIcon from '../../assets/loginIcon.png';
 import imageTestTube from '../../assets/testTube.png';
 
-const Profile = () => {
+const Profile = ({screenIndex}) => {
+    const navigation = useNavigation();
     const { signout: ctxSignout } = useContext(AuthContext);
     const styles = useStyleSheet(themedStyles);
-    const navigation = useNavigation();
+
+    const [showBackModal, setShowBackModal] = useState(false);
 
     async function handleSignout() {
         await AsyncStorage.removeItem('@yepyou_user');
@@ -30,7 +32,13 @@ const Profile = () => {
                 <Layout style={styles.actionsList}>
                     <TouchableOpacity
                         style={styles.actionsListButton}
-                        onPress={() => navigation.navigate('World')}>
+                        onPress={() => {
+                            if (screenIndex === 1) {
+                                setShowBackModal(true);
+                            } else {
+                                navigation.navigate('Worlds');
+                            }
+                        }}>
                         <Text style={styles.actionsListButtonText}>Mundos</Text>
                     </TouchableOpacity>
 
@@ -44,6 +52,30 @@ const Profile = () => {
                 <Image resizeMode="contain" style={styles.logo} source={imageLogoIcon} />
             </Layout>
             <Image resizeMode="contain" style={styles.testTube} source={imageTestTube} />
+            <Modal visible={showBackModal}>
+                <Card disabled={true}>
+                    <Text>Olá Yepper!!! {`\n`}</Text>
+                    
+                    <Text>Você está em uma missão, deseja realmente voltar a lista de Mundos?</Text>
+                    
+                    <Text>{`\n`}</Text>
+
+                    <Layout style={styles.modalActions}>
+                        <Button appearance="ghost" style={{flex: 1}} onPress={() => {
+                            setShowBackModal(false);
+                            navigation.navigate('Worlds');
+                        }}>
+                            Sim
+                        </Button>
+                        <Button style={{flex: 1}} onPress={() => {
+                            setShowBackModal(false);
+                            navigation.goBack();
+                        }}>
+                            Não
+                        </Button>
+                    </Layout>
+                </Card>
+            </Modal>
         </>
     );
 };
@@ -91,6 +123,11 @@ const themedStyles = StyleService.create({
     logo: {
         flex:1,
         width: 100
+    },
+
+    modalActions: {
+        flexDirection: 'row',
+        width: '100%'
     },
 
     testTube: {
