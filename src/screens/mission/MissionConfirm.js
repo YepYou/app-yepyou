@@ -80,7 +80,7 @@ const MissionConfirm = ({mission}) => {
             
             setLoading(false);
 
-            navigation.navigate('Mission');   
+            navigation.navigate('MaterialList', {mission});
         } else {
             setHaveConnection(false);
         }

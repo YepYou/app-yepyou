@@ -33,7 +33,7 @@ const Profile = ({screenIndex}) => {
                     <TouchableOpacity
                         style={styles.actionsListButton}
                         onPress={() => {
-                            if (screenIndex === 1) {
+                            if (screenIndex === 2) {
                                 setShowBackModal(true);
                             } else {
                                 navigation.navigate('Worlds');

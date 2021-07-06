@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Mission } from '../../screens';
-import MissionConfirm from '../../screens/mission/MissionConfirm';
+import {MissionConfirm, MaterialList} from '../../screens/mission';
 
 function MissionStack({navigation, route}) {
     const Stack = createStackNavigator();
@@ -14,12 +14,16 @@ function MissionStack({navigation, route}) {
             }}>
             <Stack.Screen
                 name="MissionConfirm" 
-                component={() => <MissionConfirm mission={mission ? mission : {}} />}
+                component={() => <MissionConfirm mission={mission} />}
             />
-						<Stack.Screen
-								name="Mission" 
-								component={Mission}
-						/>
+            <Stack.Screen
+                name="MaterialList"
+                component={MaterialList}
+            />
+            <Stack.Screen
+                name="Mission" 
+                component={Mission}
+            />
         </Stack.Navigator>
     );
 }
