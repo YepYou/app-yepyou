@@ -1,6 +1,7 @@
 const config = {
     api: {
-        url: 'http://api.yepyou.us/'
+        url: 'http://api.yepyou.us/',
+        devUrl: 'https://test-api-web-you.herokuapp.com/',
     },
     plan: {
         free: 'free'

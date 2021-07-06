@@ -34,7 +34,12 @@ const BottomTabBar = ({ navigation, state }) => {
             style={styles.menuIcons}
             appearance='noIndicator'
             selectedIndex={state.index}
-            onSelect={(index) => navigation.navigate(state.routeNames[index])}>
+            onSelect={
+                (index) => navigation.navigate(
+                    state.routeNames[index],
+                    {screenIndex: state?.routes[0]?.state?.routes[2]?.state?.index}
+                )
+            }>
                 <BottomNavigationTab disabled icon={ExplorerGuideIcon}/>
                 <BottomNavigationTab icon={MenuIcon}/>
                 <BottomNavigationTab disabled icon={LogBookIcon}/>
