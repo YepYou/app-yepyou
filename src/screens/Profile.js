@@ -52,7 +52,7 @@ const Profile = ({screenIndex}) => {
                 <Image resizeMode="contain" style={styles.logo} source={imageLogoIcon} />
             </Layout>
             <Image resizeMode="contain" style={styles.testTube} source={imageTestTube} />
-            <Modal visible={showBackModal}>
+            <Modal style={styles.modal} visible={showBackModal}>
                 <Card disabled={true}>
                     <Text>Olá Yepper!!! {`\n`}</Text>
                     
@@ -138,7 +138,11 @@ const themedStyles = StyleService.create({
         justifyContent: 'center',
         bottom: 50,
         right: -50
-    }
+    },
+
+    modal: {
+        width: '85%',
+    },
 });
 
 export default Profile;
