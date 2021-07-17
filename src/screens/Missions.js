@@ -97,7 +97,7 @@ const Missions = () => {
                     setMission(item);
                     api.post('/v1/UserMissionLog/create', 
                         {   
-                            user: user.id, 
+                            user: user.storageUser.id, 
                             mission: item._id
                         }
                     );
