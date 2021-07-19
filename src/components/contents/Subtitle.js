@@ -17,7 +17,7 @@ const Container = styled.View`
 const Text = styled.Text`
 	color: #560BA0;
 	font-weight: bold;
-	font-size: 23px;
+	font-size: 18px;
 `;
 
 export default Subtitle;

@@ -15,7 +15,7 @@ const Container = styled.View`
 `;
 
 const Text = styled.Text`
-	font-size: 30px;
+	font-size: 24px;
 	color: #000;
 	font-weight: bold;
 	text-align: left;
