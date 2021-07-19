@@ -1,6 +1,6 @@
 import React from 'react';
-
-import { Layout, StyleService, Text, useStyleSheet } from '@ui-kitten/components';
+import { StyleService, Text, useStyleSheet } from '@ui-kitten/components';
+import { ScrollView } from 'react-native';
 
 import Header from '../components/Header';
 import colors from '../styles/palette.json';
@@ -10,11 +10,16 @@ const Mission = () => {
 
     return (
         <>
-            <Header title="Uma Missão" />
-
-            <Layout style={styles.container} >
-               <Text>Isso é uma missão</Text>
-            </Layout>
+            <Header goBack />
+            <ScrollView
+                style={styles.container}
+                contentContainerStyle={{alignItems: 'center'}}>
+                <Title text="Isso é um título" />
+                <Subtitle text="Escute o áudio abaixo e entenda quais serão nossos próximos passos para essa grande descoberta:" />
+                <Img url={mission.url} />
+                <Img url="https://cdn.mensagenscomamor.com/content/images/m000134490.jpg" />
+                <Text>Isso é uma missão</Text>
+            </ScrollView>
         </>
     );
 };
