@@ -5,8 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 
 import colors from '../styles/palette.json';
 import backButtom from '../../assets/backButtom.png';
+import { StageProgress } from '../components';
 
-const Header = ({ title, goBack, translucent }) => {
+const Header = ({ title, goBack, translucent, stageProgress }) => {
     const styles = useStyleSheet(themedStyles);
     const navigation = useNavigation();
 
@@ -22,9 +23,13 @@ const Header = ({ title, goBack, translucent }) => {
                     <Image style={styles.backButtomIcon} source={backButtom} />
                 </TouchableOpacity>
             }
-            <Text style={styles.text} >
-                {title}
-            </Text>
+            {stageProgress !== undefined ? (
+                <StageProgress progress={stageProgress} />
+            ) : (
+                <Text style={styles.text} >
+                    {title}
+                </Text>
+            )}
         </Layout>
     );
 };
