@@ -30,7 +30,7 @@ const themedStyles = StyleService.create({
     },
     
 	container: {
-        paddingHorizontal: 32,
+        paddingHorizontal: 16,
         width: '100%',
         flex: 1
 	},
