@@ -28,6 +28,7 @@ const themedStyles = StyleService.create({
 		alignItems: 'center',
 		flex: 1,
 		justifyContent: 'center',
+        paddingHorizontal: 32,
 	},
 
     list: {
