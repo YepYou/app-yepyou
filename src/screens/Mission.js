@@ -30,10 +30,9 @@ const themedStyles = StyleService.create({
     },
     
 	container: {
-		alignItems: 'center',
-		flex: 1,
-		justifyContent: 'center',
         paddingHorizontal: 32,
+        width: '100%',
+        flex: 1
 	},
 
     list: {
