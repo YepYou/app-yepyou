@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleService, Text, useStyleSheet } from '@ui-kitten/components';
+import React, { useState, useContext } from 'react';
+import { StyleService, Text, useStyleSheet, Modal, Button, Layout, Card } from '@ui-kitten/components';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
 import Header from '../components/Header';
@@ -7,14 +7,17 @@ import { Title, Subtitle, Img, Dialogue } from '../components/contents';
 import colors from '../styles/palette.json';
 import config from '../config';
 import { StageTitle } from '../components';
+import api from '../services/api';
+import AuthContext from '../context/AuthContext';
 
 const Mission = ({navigation, route}) => {
     const [stage, setStage] = useState(1);
+    const [showFinishModal, setShowFinishModal] = useState(false);
+    const [finishLoading, setFinishLoading] = useState(false);
     const styles = useStyleSheet(themedStyles);
 
 	const {mission} = route.params;
-
-    console.tron.log({mission});
+    const { user } = useContext(AuthContext);
 
     const renderContent = () => {
         const { contents } = mission.stages[stage - 1] || [];
@@ -35,12 +38,16 @@ const Mission = ({navigation, route}) => {
         });
     }
 
-    const nextStage = () => {
-        if (mission.stages.length === stage) {
-            finishMission();
-        } else {
-            setStage(stage + 1);
-        }
+    const finishMission = async () => {
+        setFinishLoading(true);
+        
+        // try {
+            // await api.post(`/v1/UserMissionLog/endMission`, { user, mission });
+        setShowFinishModal(false);
+        navigation.pop(2);
+        // } catch (e) {
+            // console.log(e);
+        // }
     }
 
     return (
@@ -59,10 +66,25 @@ const Mission = ({navigation, route}) => {
                 {renderContent()}
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => nextStage()}>
+                    onPress={() => mission.stages.length === stage ? setShowFinishModal(true) : setStage(stage + 1)}>
                     <Text style={styles.buttonText}>{mission.stages.length === stage ? 'Finalizar missão' : 'Próxima etapa'}</Text>
                 </TouchableOpacity>
             </ScrollView>
+            <Modal style={styles.modal} visible={showFinishModal}>
+                <Card disabled={true}>
+                    <Text>Parabéns!!! {`\n`}</Text>
+                    
+                    <Text>Você finalizou essa missão</Text>
+                    
+                    <Text>{`\n`}</Text>
+
+                    <Layout style={styles.modalActions}>
+                        <Button loading={finishLoading} style={{flex: 1}} onPress={() => finishMission()}>
+                            Continuar
+                        </Button>
+                    </Layout>
+                </Card>
+            </Modal>
         </>
     );
 };
@@ -117,6 +139,15 @@ const themedStyles = StyleService.create({
 			alignSelf: 'center',
 			marginTop: 7
 	},
+
+    modal: {
+        width: '85%',
+    },
+
+    modalActions: {
+        flexDirection: 'row',
+        width: '100%'
+    },
 });
 
 export default Mission;
