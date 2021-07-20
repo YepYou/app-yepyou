@@ -3,7 +3,8 @@ import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Layout, Text, StyleService, useStyleSheet } from '@ui-kitten/components';
 import Markdown from 'react-native-markdown-display';
 
-import imageCharacter from '../../../assets/peronsagem1.png';
+import imageCharacter from '../../../assets/personagem2.png';
+import imageCogs from '../../../assets/cogs.png';
 import colors from '../../styles/palette.json';
 import Header from '../../components/Header';
 
@@ -27,6 +28,7 @@ const MaterialList = ({navigation, route}) => {
 				</Layout>
 				<Layout style={styles.body}>
 					<Layout style={styles.title}>
+						<Image style={styles.imageCogs} resizeMode="contain" source={imageCogs} />
 						<Text style={styles.titleText}>Lista de materiais</Text>
 					</Layout>
 					<ScrollView style={styles.listBody}>
@@ -131,19 +133,25 @@ const themedStyles = StyleService.create({
 		fontWeight: 'bold',
 	},
 
-    button: {
-        backgroundColor: colors.barColorPink,
-        borderRadius: 10,
-        width: 130,
-        height: 35,
-        bottom: 20
-    },
+	button: {
+			backgroundColor: colors.barColorPink,
+			borderRadius: 10,
+			width: 130,
+			height: 35,
+			bottom: 20
+	},
 
-    buttonText: {
-        color: '#fff',
-        alignSelf: 'center',
-        marginTop: 7
-    },
+	buttonText: {
+			color: '#fff',
+			alignSelf: 'center',
+			marginTop: 7
+	},
+
+	imageCogs: {
+		width: 40,
+		position: 'absolute',
+		right: -16,
+	}
 });
 
 export default MaterialList;

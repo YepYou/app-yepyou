@@ -73,7 +73,7 @@ const MissionConfirm = ({mission}) => {
             setHaveConnection(true);
             api.put('/v1/UserMissionLog/startMission', 
                 {   
-                    user: user.id, 
+                    user: user.storageUser.id, 
                     mission
                 }
             );
