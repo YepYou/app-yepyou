@@ -43,7 +43,13 @@ const Mission = ({navigation, route}) => {
 
     return (
         <>
+            {stage > 1 ? (
+                <Header onStageBack={() => setStage(stage - 1)} stageProgress={(stage * 100) / mission.stages.length} />
+            ) : (
+                <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
             <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
+                <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
+            )}
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={{alignItems: 'center'}}>

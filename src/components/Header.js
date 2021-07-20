@@ -7,7 +7,7 @@ import colors from '../styles/palette.json';
 import backButtom from '../../assets/backButtom.png';
 import { StageProgress } from '../components';
 
-const Header = ({ title, goBack, translucent, stageProgress }) => {
+const Header = ({ title, goBack, translucent, stageProgress, onStageBack }) => {
     const styles = useStyleSheet(themedStyles);
     const navigation = useNavigation();
 
@@ -20,6 +20,11 @@ const Header = ({ title, goBack, translucent, stageProgress }) => {
         }]}>
             {goBack &&
                 <TouchableOpacity style={styles.backButtom} onPress={() => navigation.goBack()}>
+                    <Image style={styles.backButtomIcon} source={backButtom} />
+                </TouchableOpacity>
+            }
+            {onStageBack !== undefined &&
+                <TouchableOpacity style={styles.backButtom} onPress={() => onStageBack()}>
                     <Image style={styles.backButtomIcon} source={backButtom} />
                 </TouchableOpacity>
             }
