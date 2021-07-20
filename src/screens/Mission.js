@@ -1,24 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleService, Text, useStyleSheet } from '@ui-kitten/components';
-import { ScrollView } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import Header from '../components/Header';
+import { Title, Subtitle, Img, Dialogue } from '../components/contents';
 import colors from '../styles/palette.json';
+import config from '../config';
+import { StageTitle } from '../components';
 
-const Mission = () => {
+const Mission = ({navigation, route}) => {
+    const [stage, setStage] = useState(1);
     const styles = useStyleSheet(themedStyles);
+
+	const {mission} = route.params;
+
+    const renderContent = () => {
+        const { contents } = mission.stages[stage - 1] || [];
+
+        return contents.map(content => {
+            switch (content.type) {
+                case config.contentTypes.title:
+                    return <Title text={content.textContent} />;
+                case config.contentTypes.subTitle:
+                    return <Subtitle text={content.textContent} />;
+                case config.contentTypes.text:
+                    return <Dialogue text={content.textContent} />;
+                case config.contentTypes.image:
+                    return <Img url={content.url} />;
+                default:
+                    return null;
+            };
+        });
+    }
+
+    const nextStage = () => {
+        if (mission.stages.length === stage) {
+            finishMission();
+        } else {
+            setStage(stage + 1);
+        }
+    }
 
     return (
         <>
-            <Header goBack />
+            <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={{alignItems: 'center'}}>
-                <Title text="Isso é um título" />
-                <Subtitle text="Escute o áudio abaixo e entenda quais serão nossos próximos passos para essa grande descoberta:" />
-                <Img url={mission.url} />
-                <Img url="https://cdn.mensagenscomamor.com/content/images/m000134490.jpg" />
-                <Text>Isso é uma missão</Text>
+                {mission.stages[stage] && mission.stages[stage].name && (
+                    <StageTitle text={mission.stages[stage].name} />
+                )}
+                {renderContent()}
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => nextStage()}>
+                    <Text style={styles.buttonText}>{mission.stages.length === stage ? 'Finalizar missão' : 'Próxima etapa'}</Text>
+                </TouchableOpacity>
             </ScrollView>
         </>
     );
@@ -58,7 +95,22 @@ const themedStyles = StyleService.create({
         bottom: 10,
         position: 'absolute',
         right: 25
-    }
+    },
+
+	button: {
+			backgroundColor: colors.barColorPink,
+			borderRadius: 10,
+			width: 130,
+			height: 35,
+			bottom: 20,
+            marginTop: 32,
+	},
+
+	buttonText: {
+			color: '#fff',
+			alignSelf: 'center',
+			marginTop: 7
+	},
 });
 
 export default Mission;
