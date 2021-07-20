@@ -6,12 +6,17 @@ import { useNavigation } from '@react-navigation/native';
 import colors from '../styles/palette.json';
 import backButtom from '../../assets/backButtom.png';
 
-const Header = ({ title, goBack }) => {
+const Header = ({ title, goBack, translucent }) => {
     const styles = useStyleSheet(themedStyles);
     const navigation = useNavigation();
 
     return (
-        <Layout style={styles.container}>
+        <Layout style={[styles.container, {
+            position: translucent ? 'absolute' : 'relative',
+            backgroundColor: translucent ? 'transparent' : colors.secundary,
+            zIndex: translucent ? 999 : 0,
+            height: translucent ? 64 : 120,
+        }]}>
             {goBack &&
                 <TouchableOpacity style={styles.backButtom} onPress={() => navigation.goBack()}>
                     <Image style={styles.backButtomIcon} source={backButtom} />
@@ -39,9 +44,8 @@ const themedStyles = StyleService.create({
 	container: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'color-info-500',
-        height: 120,
-        width: "100%"
+        width: "100%",
+        top: 0,
 	},
 
     text: {

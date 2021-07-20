@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { World, Mission, Missions } from '../../screens';
-import { MissionConfirm } from '../../screens/mission';
+import { Worlds, Missions } from '../../screens';
+import MissionStack from './MissionStack';
 
 function WorldStack() {
     const Stack = createStackNavigator();
@@ -11,25 +11,17 @@ function WorldStack() {
             screenOptions={{
                 headerShown: false,
             }}>
-
             <Stack.Screen
-                name="World" 
-                component={World}
+                name="Worlds" 
+                component={Worlds}
             />
-
             <Stack.Screen
                 name="Missions" 
                 component={Missions}
             />
-            
             <Stack.Screen
-                name="MissionConfirm" 
-                component={MissionConfirm}
-            />
-
-            <Stack.Screen
-                name="Mission" 
-                component={Mission}
+                name="MissionStack"
+                component={MissionStack}
             />
         </Stack.Navigator>
     );

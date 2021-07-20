@@ -33,7 +33,7 @@ const MissionBottleImage = (props) => (
     <Image resizeMode="contain" {...props} source={missionBottle}/>
 );
 
-const MissionConfirm = () => {
+const MissionConfirm = ({mission}) => {
     const { user } = useContext(AuthContext);
 
     const navigation = useNavigation();
@@ -43,8 +43,6 @@ const MissionConfirm = () => {
 
     const [loading, setLoading] = useState(false);
     const [haveConnetion, setHaveConnection] = useState(true);
-
-    const mission = route.params.mission;
 
     let thematicAreas = mission.thematicArea.split(",");
 
@@ -75,14 +73,14 @@ const MissionConfirm = () => {
             setHaveConnection(true);
             api.put('/v1/UserMissionLog/startMission', 
                 {   
-                    user: user.storageUser.id, 
+                    user: user.id, 
                     mission
                 }
             );
             
             setLoading(false);
 
-            navigation.navigate('Mission');   
+            navigation.navigate('MaterialList', {mission});
         } else {
             setHaveConnection(false);
         }

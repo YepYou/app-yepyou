@@ -130,7 +130,8 @@ const World = () => {
 
 const themedStyles = StyleService.create({
     backdropModal: {
-        backgroundColor: colors.backdropModal
+        backgroundColor: colors.backdropModal,
+        width: '85%',
     },
     
 	container: {

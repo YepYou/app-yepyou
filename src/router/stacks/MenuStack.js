@@ -2,8 +2,9 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Profile } from '../../screens';
 
-function MenuStack() {
+function MenuStack({navigation, route}) {
     const Stack = createStackNavigator();
+    const {screenIndex} = route.params;
 
     return (
         <Stack.Navigator
@@ -26,7 +27,7 @@ function MenuStack() {
 
             <Stack.Screen
                 name="Profile"
-                component={Profile}
+                component={() => <Profile screenIndex={screenIndex} />}
             />
         </Stack.Navigator>
     );
