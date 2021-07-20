@@ -30,7 +30,13 @@ const config = {
                 ]
             }
         }
-    }
+    },
+    contentTypes: {
+        title: 'title',
+        subTitle: 'subTitle',
+        image: 'image',
+        text: 'text',
+    },
 };
 
 export default config;
