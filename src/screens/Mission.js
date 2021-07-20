@@ -14,6 +14,8 @@ const Mission = ({navigation, route}) => {
 
 	const {mission} = route.params;
 
+    console.tron.log({mission});
+
     const renderContent = () => {
         const { contents } = mission.stages[stage - 1] || [];
 
@@ -47,14 +49,12 @@ const Mission = ({navigation, route}) => {
                 <Header onStageBack={() => setStage(stage - 1)} stageProgress={(stage * 100) / mission.stages.length} />
             ) : (
                 <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
-            <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
-                <Header goBack stageProgress={(stage * 100) / mission.stages.length} /> 
             )}
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={{alignItems: 'center'}}>
-                {mission.stages[stage] && mission.stages[stage].name && (
-                    <StageTitle text={mission.stages[stage].name} />
+                {mission.stages[stage - 1] && (
+                    <StageTitle text={mission.stages[stage - 1].name} />
                 )}
                 {renderContent()}
                 <TouchableOpacity
