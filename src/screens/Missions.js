@@ -14,6 +14,7 @@ import WithoutConnection from '../components/WithoutConnection';
 import NoDataFound from '../components/NoDataFound';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
+import { NoBadge } from '../components';
 
 import api from '../services/api';
 import config from '../config';
@@ -63,7 +64,7 @@ const Missions = () => {
         if (netinfo.isConnected) {
             setHaveConnection(true);
 
-            const { data: missionsData } = await api.get(`/v1/missions?active=true&user=${user.id}&world=${route.params.world.id}`);
+            const { data: missionsData } = await api.get(`/v1/missions?active=true&user=${user.storageUser.id}&world=${route.params.world._id}`);
             
             setTotalPages(missionsData.totalPages);
             setMissions(missionsData.docs);
@@ -96,12 +97,12 @@ const Missions = () => {
                     setMission(item);
                     api.post('/v1/UserMissionLog/create', 
                         {   
-                            user: user.id, 
+                            user: user.storageUser.id, 
                             mission: item._id
                         }
                     );
                     setLoading(false);
-                    navigation.navigate('MissionConfirm', { mission: item });
+                    navigation.navigate('MissionStack', { mission: item });
                 } else {
                     setModalVisible(true);
                 }
@@ -112,12 +113,16 @@ const Missions = () => {
                         style={styles.cardMissionBlockImage} 
                         source={{ uri: `${item.url}` }} 
                     />
-                    
-                    <Image 
-                        resizeMode="contain"
-                        source={item.dateFinished ? { uri: `${item.insigniaUrl}` } : imageInsinia} 
-                        style={styles.cardMissionBlockInsignia}
-                    />
+
+                    {item.dateFinished ? (
+                        <Image 
+                            resizeMode="contain"
+                            source={item.insigniaUrl} 
+                            style={styles.cardMissionBlockInsignia}
+                        />
+                    ) : (
+                        <NoBadge />
+                    )}
                         
                     {item.plan !== config.plan.free &&
                         <Avatar 
@@ -216,7 +221,8 @@ const Missions = () => {
 
 const themedStyles = StyleService.create({
     backdropModal: {
-        backgroundColor: colors.backdropModal
+        backgroundColor: colors.backdropModal,
+        width: '85%',
     },
 
 	container: {

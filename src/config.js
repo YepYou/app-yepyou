@@ -1,6 +1,7 @@
 const config = {
     api: {
-        url: 'http://api.yepyou.us/'
+        url: 'https://yepyou-api.herokuapp.com/',
+        devUrl: 'https://yepyou-api-test.herokuapp.com/',
     },
     plan: {
         free: 'free'
@@ -29,7 +30,13 @@ const config = {
                 ]
             }
         }
-    }
+    },
+    contentTypes: {
+        title: 'title',
+        subTitle: 'subTitle',
+        image: 'image',
+        text: 'text',
+    },
 };
 
 export default config;

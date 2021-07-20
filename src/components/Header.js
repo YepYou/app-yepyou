@@ -5,21 +5,36 @@ import { useNavigation } from '@react-navigation/native';
 
 import colors from '../styles/palette.json';
 import backButtom from '../../assets/backButtom.png';
+import { StageProgress } from '../components';
 
-const Header = ({ title, goBack }) => {
+const Header = ({ title, goBack, translucent, stageProgress, onStageBack }) => {
     const styles = useStyleSheet(themedStyles);
     const navigation = useNavigation();
 
     return (
-        <Layout style={styles.container}>
+        <Layout style={[styles.container, {
+            position: translucent ? 'absolute' : 'relative',
+            backgroundColor: translucent ? 'transparent' : colors.secundary,
+            zIndex: translucent ? 999 : 0,
+            height: translucent ? 64 : 120,
+        }]}>
             {goBack &&
                 <TouchableOpacity style={styles.backButtom} onPress={() => navigation.goBack()}>
                     <Image style={styles.backButtomIcon} source={backButtom} />
                 </TouchableOpacity>
             }
-            <Text style={styles.text} >
-                {title}
-            </Text>
+            {onStageBack !== undefined &&
+                <TouchableOpacity style={styles.backButtom} onPress={() => onStageBack()}>
+                    <Image style={styles.backButtomIcon} source={backButtom} />
+                </TouchableOpacity>
+            }
+            {stageProgress !== undefined ? (
+                <StageProgress progress={stageProgress} />
+            ) : (
+                <Text style={styles.text} >
+                    {title}
+                </Text>
+            )}
         </Layout>
     );
 };
@@ -39,9 +54,8 @@ const themedStyles = StyleService.create({
 	container: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'color-info-500',
-        height: 120,
-        width: "100%"
+        width: "100%",
+        top: 0,
 	},
 
     text: {
