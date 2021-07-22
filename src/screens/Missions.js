@@ -64,7 +64,7 @@ const Missions = () => {
         if (netinfo.isConnected) {
             setHaveConnection(true);
 
-            const { data: missionsData } = await api.get(`/v1/missions?active=true&user=${user.storageUser.id}&world=${route.params.world._id}`);
+            const { data: missionsData } = await api.get(`/v1/missions?active=true&user=${user.id}&world=${route.params.world._id}`);
             
             setTotalPages(missionsData.totalPages);
             setMissions(missionsData.docs);
@@ -97,7 +97,7 @@ const Missions = () => {
                     setMission(item);
                     api.post('/v1/UserMissionLog/create', 
                         {   
-                            user: user.storageUser.id, 
+                            user: user.id, 
                             mission: item._id
                         }
                     );
