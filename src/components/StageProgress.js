@@ -39,13 +39,13 @@ const ProgressBox = styled.View`
 	position: absolute;
 	bottom: -15px;
 	width: 100%;
-	left: ${({progress}) => `${(Dimensions.get('window').width * 0.65) * (progress / 100) - 59}px`}
+	left: ${({progress}) => `${(Dimensions.get('window').width * 0.65) * (progress / 100) - 59}px`};
+	align-items: center;
 `;
 
 const Progress = styled.Text`
 	color: #FFF;
 	font-size: 12px;
-	line-height: 50px;
 	font-weight: bold;
 `;
 

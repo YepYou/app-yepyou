@@ -41,13 +41,13 @@ const Mission = ({navigation, route}) => {
     const finishMission = async () => {
         setFinishLoading(true);
         
-        // try {
-            // await api.post(`/v1/UserMissionLog/endMission`, { user, mission });
-        setShowFinishModal(false);
-        navigation.pop(2);
-        // } catch (e) {
-            // console.log(e);
-        // }
+        try {
+            await api.put(`/v1/UserMissionLog/endMission`, { user: user.id, mission: mission._id });
+            setShowFinishModal(false);
+            navigation.pop(2);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (
@@ -126,18 +126,18 @@ const themedStyles = StyleService.create({
     },
 
 	button: {
-			backgroundColor: colors.barColorPink,
-			borderRadius: 10,
-			width: 130,
-			height: 35,
-			bottom: 20,
-            marginTop: 32,
+        backgroundColor: colors.barColorPink,
+        borderRadius: 10,
+        width: 130,
+        height: 35,
+        bottom: 20,
+        marginTop: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
 	},
 
 	buttonText: {
-			color: '#fff',
-			alignSelf: 'center',
-			marginTop: 7
+        color: '#fff',
 	},
 
     modal: {
