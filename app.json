@@ -4,7 +4,7 @@
   "expo": {
     "name": "YepYou!",
     "slug": "yepyou",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "platforms": [
       "android",
       "ios"
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 4,
+      "versionCode": 5,
       "permissions": []
 
     },
