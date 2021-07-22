@@ -138,13 +138,13 @@ const themedStyles = StyleService.create({
 			borderRadius: 10,
 			width: 130,
 			height: 35,
-			bottom: 20
+			bottom: 20,
+			alignItems: 'center',
+			justifyContent: 'center',
 	},
 
 	buttonText: {
 			color: '#fff',
-			alignSelf: 'center',
-			marginTop: 7
 	},
 
 	imageCogs: {
