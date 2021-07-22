@@ -41,13 +41,13 @@ const Mission = ({navigation, route}) => {
     const finishMission = async () => {
         setFinishLoading(true);
         
-        // try {
-            // await api.post(`/v1/UserMissionLog/endMission`, { user, mission });
-        setShowFinishModal(false);
-        navigation.pop(2);
-        // } catch (e) {
-            // console.log(e);
-        // }
+        try {
+            await api.put(`/v1/UserMissionLog/endMission`, { user: user.storageUser.id, mission: mission._id });
+            setShowFinishModal(false);
+            navigation.pop(2);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (
