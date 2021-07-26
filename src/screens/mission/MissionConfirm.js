@@ -53,7 +53,7 @@ const MissionConfirm = ({mission}) => {
 
         if (netinfo.isConnected) {
             setHaveConnection(true);
-            const { data: worldsData } = await api.get('/v1/worlds');
+            const { data: worldsData } = await api.get('/v1/worlds?status=true');
             
             setTotalPages(worldsData.totalPages);
             setWorlds(worldsData.docs);

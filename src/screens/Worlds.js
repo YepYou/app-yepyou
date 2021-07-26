@@ -34,7 +34,7 @@ const World = () => {
 		if (worlds.length <= totalPages) {
             try {
                 setPage(oldPage => oldPage + 1);
-                const { data: worldsData } = await api.get(`/v1/worlds?page=${page}`);
+                const { data: worldsData } = await api.get(`/v1/worlds?page=${page}&status=true`);
 
                 setWorlds([...worlds, worldsData])
             } catch (e) {
@@ -50,7 +50,7 @@ const World = () => {
 
         if (netinfo.isConnected) {
             setHaveConnection(true);
-            const { data: worldsData } = await api.get('/v1/worlds');
+            const { data: worldsData } = await api.get('/v1/worlds?status=true');
             
             setTotalPages(worldsData.totalPages);
             setWorlds(worldsData.docs);
