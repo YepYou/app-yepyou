@@ -9,7 +9,7 @@ const StageProgress = ({progress = 100}) => {
 		<Container>
 			<Bar progress={progress} />
 			<ProgressBox progress={progress}>
-				<Progress>{progress}%</Progress>
+				<Progress>{Math.round(progress)}%</Progress>
 				<Pointer resizeMode="contain" source={imagePointer}></Pointer>
 			</ProgressBox>
 		</Container>
