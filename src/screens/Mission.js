@@ -22,7 +22,7 @@ const Mission = ({navigation, route}) => {
     const renderContent = () => {
         const { contents } = mission.stages[stage - 1] || [];
 
-        return contents.reverse().map(content => {
+        return contents.map(content => {
             switch (content.type) {
                 case config.contentTypes.title:
                     return <Title text={content.textContent} />;
