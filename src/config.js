@@ -37,6 +37,7 @@ const config = {
         image: 'image',
         text: 'text',
         audio: 'audio',
+        video: 'video',
     },
 };
 

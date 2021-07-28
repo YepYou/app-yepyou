@@ -3,7 +3,7 @@ import { StyleService, Text, useStyleSheet, Modal, Button, Layout, Card } from '
 import { ScrollView, TouchableOpacity } from 'react-native';
 
 import Header from '../components/Header';
-import { Title, Subtitle, Img, Dialogue, PlayAudio } from '../components/contents';
+import { Title, Subtitle, Img, Dialogue, PlayAudio, Video } from '../components/contents';
 import colors from '../styles/palette.json';
 import config from '../config';
 import { StageTitle } from '../components';
@@ -34,6 +34,8 @@ const Mission = ({navigation, route}) => {
                     return <Img url={content.url} />;
                 case config.contentTypes.audio:
                     return <PlayAudio url={content.url} />;
+                case config.contentTypes.video:
+                    return <Video url={content.textContent} />;
                 default:
                     return null;
             };
