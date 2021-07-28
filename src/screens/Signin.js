@@ -72,7 +72,7 @@ const Signin = () => {
                     };
 
                     ctxSignin(storageUser);
-                    storageUser = JSON.stringify({storageUser});
+                    storageUser = JSON.stringify(storageUser);
                     await AsyncStorage.setItem('@yepyou_user', storageUser);
                 }
             } catch (error) {
