@@ -36,6 +36,7 @@ const config = {
         subTitle: 'subTitle',
         image: 'image',
         text: 'text',
+        audio: 'audio',
     },
 };
 
