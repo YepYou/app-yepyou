@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { YepBoards } from '../../screens';
+import { YepBoards, MissionYepBoard } from '../../screens';
 
 const YepBoardStack = () => {
 	const Stack = createStackNavigator();
@@ -14,6 +14,10 @@ const YepBoardStack = () => {
 			<Stack.Screen
 				name="YepBoards"
 				component={YepBoards}
+			/>
+			<Stack.Screen
+				name="MissionYepBoard"
+				component={MissionYepBoard}
 			/>
 		</Stack.Navigator>
 	);

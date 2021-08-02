@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import Header from '../components/Header';
 import Balloon from "react-native-balloon";
 
+import Header from '../components/Header';
 import imageCharacter from '../../assets/peronsagem1.png';
 import plusIcon from '../../assets/plus.png';
 
@@ -18,7 +18,7 @@ const YepBoards = () => {
 					triangleDirection="right"
 					borderRadius={20}
 					triangleSize={10}
-					width={Dimensions.get('window').width * .5}>
+					width={Dimensions.get('window').width * .6}>
 						<DialogueText>
 							Que tal conferir as anotações feitas em seu YepBoard?
 						</DialogueText>
@@ -61,14 +61,14 @@ const Dialogue = styled.View`
 	justify-content: flex-end;
 `;
 
-const CharacterImage = styled.Image`
-	width: 120px;
-	height: 120px;
-`;
-
 const DialogueText = styled.Text`
 	color: #706F6F;
 	font-weight: bold;
+`;
+
+const CharacterImage = styled.Image`
+	width: 120px;
+	height: 120px;
 `;
 
 const YepBoard = styled.TouchableOpacity`
