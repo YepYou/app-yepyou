@@ -6,10 +6,14 @@ import * as ImagePicker from 'expo-image-picker';
 import imageIcon from '../../assets/image.png';
 import microphoneIcon from '../../assets/microphone.png';
 import textIcon from '../../assets/text.png';
+import cancelIcon from '../../assets/cancel.png';
+import sendIcon from '../../assets/send.png';
 
 const NoteCreator = () => {
 	const [image, setImage] = useState(null);
-	const [sendingImage, setSendingImage] = useState(true);
+	const [sendingImage, setSendingImage] = useState(false);
+	const [typingText, setTypingText] = useState(true);
+	const [text, setText] = useState('');
 
 	const colors = {
 		image: '#561791',
@@ -28,40 +32,70 @@ const NoteCreator = () => {
 		}
 	};
 
+	const sendText = () => {
+
+	}
+
 	return (
-		<Container>
+		<Container height={typingText ? 200 : 60}>
 			<Actions>
+				{typingText && (
+					<Button
+						color="#00000055"
+						onPress={() => setTypingText(false)}
+					>
+						<ButtonImage
+							resizeMode="contain"
+							source={cancelIcon}
+						/>
+					</Button>
+				)}
+				{!typingText && (
+					<Button
+						disabled={sendingImage}
+						color={colors.image}
+						onPress={(sendingImage && pickImage) || null}>
+						<ButtonImage
+							resizeMode="contain"
+							source={imageIcon}
+						/>
+					</Button>
+				)}
+				{!typingText && (
+					<Button
+						disabled={sendingImage}
+						color={colors.audio}>
+						<ButtonImage
+							resizeMode="contain"
+							source={microphoneIcon}
+						/>
+					</Button>
+				)}
 				<Button
 					disabled={sendingImage}
-					color={colors.image}
-					onPress={(sendingImage && pickImage) || null}>
+					color={colors.text}
+					onPress={() => typingText ? sendText() : setTypingText(true)}>
 					<ButtonImage
 						resizeMode="contain"
-						source={imageIcon}
-					/>
-				</Button>
-				<Button
-					disabled={sendingImage}
-					color={colors.audio}>
-					<ButtonImage
-						resizeMode="contain"
-						source={microphoneIcon}
-					/>
-				</Button>
-				<Button
-					disabled={sendingImage}
-					color={colors.text}>
-					<ButtonImage
-						resizeMode="contain"
-						source={textIcon}
+						source={typingText ? sendIcon : textIcon}
 					/>
 				</Button>
 			</Actions>
-			<Content>
-				<Placeholder>
-					{sendingImage && "Enviando imagem..."}
-				</Placeholder>
-				<ActivityIndicator color={colors.image} />
+			<Content flex={typingText ? 2 : 1}>
+				{!typingText ? (
+					<Placeholder>
+						{sendingImage && "Enviando imagem..."}
+						{!sendingImage && "Crie uma nota..."}
+					</Placeholder>
+				) : (
+					<TextInput
+						multiline
+						placeholder="Digite o texto de sua nota..."
+						value={text}
+						onChangeText={setText}
+					/>
+				)}
+				{sendingImage && <ActivityIndicator color={colors.image} />}
 			</Content>
 		</Container>
 	);
@@ -79,7 +113,7 @@ const Container = styled.View`
 `;
 
 const Content = styled.View`
-	flex: 1;
+	flex: ${({flex}) => flex};
 	height: 100%;
 	flex-direction: row;
 	align-items: center;
@@ -110,6 +144,9 @@ const ButtonImage = styled.Image`
 
 const Placeholder = styled.Text`
 	color: #919190;
+`;
+
+const TextInput = styled.TextInput`
 `;
 
 export default NoteCreator;
