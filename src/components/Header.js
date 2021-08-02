@@ -62,6 +62,7 @@ const themedStyles = StyleService.create({
         color: colors.headerText,
         fontSize: 36,
         fontWeight: 'bold',
+        textTransform: 'uppercase'
     }
 });
 
