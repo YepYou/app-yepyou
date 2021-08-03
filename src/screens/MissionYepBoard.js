@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import Balloon from "react-native-balloon";
 
-import Header from '../components/Header';
+import { Header, NoteCreator } from '../components';
 import imageCharacter from '../../assets/peronsagem1.png';
 
 const MissionYepboard = () => {
@@ -27,9 +27,12 @@ const MissionYepboard = () => {
 					source={imageCharacter}
 				/>
 			</Dialogue>
+			<Container>
+				<NoteCreator />
+			</Container>
 		</>
 	)
-}
+};
 
 const Dialogue = styled.View`
 	width: 100%;
@@ -49,6 +52,13 @@ const DialogueText = styled.Text`
 const CharacterImage = styled.Image`
 	width: 120px;
 	height: 120px;
+`;
+
+const Container = styled.View`
+	margin-top: 85px;
+	flex: 1;
+	width: 100%;
+	padding: 0 16px;
 `;
 
 export default MissionYepboard;
