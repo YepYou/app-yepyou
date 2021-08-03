@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Animated } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import imageIcon from '../../assets/image.png';
@@ -12,8 +12,12 @@ import sendIcon from '../../assets/send.png';
 const NoteCreator = () => {
 	const [image, setImage] = useState(null);
 	const [sendingImage, setSendingImage] = useState(false);
-	const [typingText, setTypingText] = useState(true);
+	const [recordingAudio, setRecordingAudio] = useState(true);
+	const [typingText, setTypingText] = useState(false);
 	const [text, setText] = useState('');
+
+	const fadeAnim = useRef(new Animated.Value(0)).current;
+	const springValue = useRef(new Animated.Value(0)).current;
 
 	const colors = {
 		image: '#561791',
@@ -36,13 +40,47 @@ const NoteCreator = () => {
 
 	}
 
+	const sendAudio = () => {
+
+	}
+
+	const fadeInAndOutAnimation = Animated.sequence([
+		Animated.timing(fadeAnim, {
+			toValue: 0.6,
+			duration: 750,
+		}),
+		Animated.timing(fadeAnim, {
+			toValue: 0,
+			duration: 750,
+		}),
+	]);
+
+	useEffect(() => {
+		if (recordingAudio) {
+			Animated.loop(
+				Animated.parallel([
+					fadeInAndOutAnimation,
+					Animated.timing(springValue, {
+						toValue: 0.6,
+						friction: 3,
+						tension: 40,
+						duration: 1500,
+					}),
+				]),
+			).start();
+		}
+	}, [recordingAudio])
+
 	return (
 		<Container height={typingText ? 200 : 60}>
 			<Actions>
-				{typingText && (
+				{typingText || recordingAudio && (
 					<Button
 						color="#00000055"
-						onPress={() => setTypingText(false)}
+						onPress={() => {
+							setTypingText(false);
+							setRecordingAudio(false);
+						}}
 					>
 						<ButtonImage
 							resizeMode="contain"
@@ -50,11 +88,11 @@ const NoteCreator = () => {
 						/>
 					</Button>
 				)}
-				{!typingText && (
+				{!typingText && !recordingAudio && (
 					<Button
-						disabled={sendingImage}
+						disabled={sendingImage || recordingAudio}
 						color={colors.image}
-						onPress={(sendingImage && pickImage) || null}>
+						onPress={pickImage}>
 						<ButtonImage
 							resizeMode="contain"
 							source={imageIcon}
@@ -64,28 +102,32 @@ const NoteCreator = () => {
 				{!typingText && (
 					<Button
 						disabled={sendingImage}
-						color={colors.audio}>
+						color={colors.audio}
+						onPress={() => recordingAudio ? sendAudio() : setRecordingAudio(true)}>
 						<ButtonImage
 							resizeMode="contain"
-							source={microphoneIcon}
+							source={recordingAudio ? sendIcon : microphoneIcon}
 						/>
 					</Button>
 				)}
-				<Button
-					disabled={sendingImage}
-					color={colors.text}
-					onPress={() => typingText ? sendText() : setTypingText(true)}>
-					<ButtonImage
-						resizeMode="contain"
-						source={typingText ? sendIcon : textIcon}
-					/>
-				</Button>
+				{!recordingAudio && (
+					<Button
+						disabled={sendingImage || recordingAudio}
+						color={colors.text}
+						onPress={() => typingText ? sendText() : setTypingText(true)}>
+						<ButtonImage
+							resizeMode="contain"
+							source={typingText ? sendIcon : textIcon}
+						/>
+					</Button>
+				)}
 			</Actions>
 			<Content flex={typingText ? 2 : 1}>
 				{!typingText ? (
 					<Placeholder>
 						{sendingImage && "Enviando imagem..."}
-						{!sendingImage && "Crie uma nota..."}
+						{recordingAudio && "Gravando áudio..."}
+						{!sendingImage && !recordingAudio && "Crie uma nota..."}
 					</Placeholder>
 				) : (
 					<TextInput
@@ -96,6 +138,15 @@ const NoteCreator = () => {
 					/>
 				)}
 				{sendingImage && <ActivityIndicator color={colors.image} />}
+				{recordingAudio && (
+					<Animated.View style={{
+						opacity: fadeAnim,
+						width: 20,
+						height: 20,
+						borderRadius: 10,
+						backgroundColor: 'red'
+					}}/>
+				)}
 			</Content>
 		</Container>
 	);
