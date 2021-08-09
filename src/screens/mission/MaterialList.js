@@ -9,8 +9,7 @@ import colors from '../../styles/palette.json';
 import Header from '../../components/Header';
 
 const MaterialList = ({navigation, route}) => {
-    const styles = useStyleSheet(themedStyles);
-
+  const styles = useStyleSheet(themedStyles);
 	const {mission} = route.params;
 
 	return (
@@ -36,9 +35,9 @@ const MaterialList = ({navigation, route}) => {
 							{mission.materialList}
 						</Markdown>
 					</ScrollView>
-									<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Mission', {mission})}>
-											<Text style={styles.buttonText}>Avançar</Text>
-									</TouchableOpacity>
+						<TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Mission', {mission})}>
+								<Text style={styles.buttonText}>Avançar</Text>
+						</TouchableOpacity>
 				</Layout>
 			</Layout>
 		</>
