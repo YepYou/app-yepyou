@@ -58,6 +58,7 @@ const themedStyles = StyleService.create({
 
   backButtom: {
     left: 20,
+    zIndex: 999,
   },
 
   backButtomIcon: {
@@ -69,6 +70,7 @@ const themedStyles = StyleService.create({
     justifyContent: 'flex-start',
     backgroundColor: 'transparent',
     width: '100%',
+    flex: 1,
   },
 
   text: {
