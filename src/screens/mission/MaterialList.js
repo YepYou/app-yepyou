@@ -40,9 +40,13 @@ const MaterialList = ({navigation, route}) => {
             />
             <Text style={styles.titleText}>Lista de materiais</Text>
           </Layout>
-          <ScrollView style={styles.listBody}>
-            <Markdown>{mission.materialList}</Markdown>
-          </ScrollView>
+          <Layout style={styles.listBox}>
+            <ScrollView
+              contentInsetAdjustmentBehavior="automatic"
+              style={styles.listBody}>
+              <Markdown>{mission.materialList}</Markdown>
+            </ScrollView>
+          </Layout>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Mission', {mission})}>
@@ -110,13 +114,17 @@ const themedStyles = StyleService.create({
     fontWeight: 'bold',
   },
 
-  listBody: {
-    backgroundColor: 'white',
-    padding: 32,
-    maxHeight: '95%',
-    minHeight: '95%',
+  listBox: {
+    width: '95%',
+    height: '95%',
     borderRadius: 32,
-    width: '100%',
+  },
+
+  listBody: {
+    height: '80%',
+    marginTop: 20,
+    marginBottom: 26,
+    paddingHorizontal: 10,
   },
 
   body: {
