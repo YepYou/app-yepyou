@@ -2,6 +2,8 @@ import React, {useState, useRef, useEffect, useContext} from 'react';
 import styled from 'styled-components/native';
 import {ActivityIndicator, Animated} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import 'react-native-get-random-values';
+import {v4 as uuid} from 'uuid';
 
 import imageIcon from '../../assets/image.png';
 import microphoneIcon from '../../assets/microphone.png';
@@ -14,7 +16,6 @@ import AuthContext from '../context/AuthContext';
 const NoteCreator = () => {
   const {user} = useContext(AuthContext);
 
-  const [image, setImage] = useState(null);
   const [sendingImage, setSendingImage] = useState(false);
   const [recordingAudio, setRecordingAudio] = useState(false);
   const [typingText, setTypingText] = useState(false);
@@ -37,12 +38,13 @@ const NoteCreator = () => {
     });
 
     if (!pickedImage.cancelled) {
-      setImage(pickedImage.uri);
+      sendImage(pickedImage);
     }
   };
 
   const sendText = async () => {
     setSendingText(true);
+
     try {
       await api.post('/v1/yepboards', {
         mission: '60e328f3737e180031a9241f',
@@ -51,13 +53,37 @@ const NoteCreator = () => {
         content: text,
       });
     } catch (e) {
-      setSendingText(false);
       console.log(e);
     }
 
     setText('');
     setSendingText(false);
     setTypingText(false);
+  };
+
+  const sendImage = async (image) => {
+    setSendingImage(true);
+
+    const data = new FormData();
+
+    data.append('photo', {
+      name: uuid(),
+      type: pickImage.type,
+      uri: image.uri.replace('file://', ''),
+    });
+
+    try {
+      await api.post('v1/yepboards', {
+        mission: '60e328f3737e180031a9241f',
+        user: '60b94b56125c704218c6fd85',
+        type: 'image',
+        file: data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+    setSendingImage(false);
   };
 
   const sendAudio = () => {};
