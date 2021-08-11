@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ActivityIndicator, Dimensions} from 'react-native';
+import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
+import {useNavigation} from '@react-navigation/native';
 import Balloon from 'react-native-balloon';
 
 import Header from '../components/Header';
@@ -12,6 +13,7 @@ import {Loading} from '../components';
 
 const YepBoards = () => {
   const {user} = useContext(AuthContext);
+  const navigation = useNavigation();
 
   const [loading, setLoading] = useState(true);
   const [missions, setMissions] = useState([]);
@@ -32,7 +34,8 @@ const YepBoards = () => {
 
   const renderYepBoardMissions = () => {
     return missions.map((mission) => (
-      <YepBoard>
+      <YepBoard
+        onPress={() => navigation.navigate('MissionYepBoard', {mission})}>
         <YepBoardName>{mission.name}</YepBoardName>
         <Plus>
           <PlusIcon resizeMode="contain" source={plusIcon} />

@@ -13,7 +13,7 @@ import sendIcon from '../../assets/send.png';
 import api from '../services/api';
 import AuthContext from '../context/AuthContext';
 
-const NoteCreator = () => {
+const NoteCreator = ({mission}) => {
   const {user} = useContext(AuthContext);
 
   const [sendingImage, setSendingImage] = useState(false);
@@ -47,8 +47,8 @@ const NoteCreator = () => {
 
     try {
       await api.post('/v1/yepboards', {
-        mission: '60e328f3737e180031a9241f',
-        user: '60b94b56125c704218c6fd85',
+        mission: mission._id,
+        user: user.id,
         type: 'text',
         content: text,
       });
@@ -74,8 +74,8 @@ const NoteCreator = () => {
 
     try {
       await api.post('v1/yepboards', {
-        mission: '60e328f3737e180031a9241f',
-        user: '60b94b56125c704218c6fd85',
+        mission: mission._id,
+        user: user.id,
         type: 'image',
         file: data,
       });
