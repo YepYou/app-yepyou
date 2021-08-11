@@ -1,17 +1,19 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {YepBoards, MissionYepBoard} from '../../screens';
+import MissionContext from '../../context/MissionContext';
 
-const YepBoardStack = () => {
+const YepBoardStack = ({route}) => {
   const Stack = createStackNavigator();
+  const {mission} = useContext(MissionContext);
 
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="YepBoards" component={YepBoards} />
+      {!mission && <Stack.Screen name="YepBoards" component={YepBoards} />}
       <Stack.Screen name="MissionYepBoard" component={MissionYepBoard} />
     </Stack.Navigator>
   );

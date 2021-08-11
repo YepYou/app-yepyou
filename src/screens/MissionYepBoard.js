@@ -7,10 +7,11 @@ import AuthContext from '../context/AuthContext';
 import {Header, Loading, NoteCreator} from '../components';
 import imageCharacter from '../../assets/peronsagem1.png';
 import api from '../services/api';
+import MissionContext from '../context/MissionContext';
 
-const MissionYepboard = ({route}) => {
+const MissionYepboard = () => {
   const {user} = useContext(AuthContext);
-  const {mission} = route.params;
+  const {mission} = useContext(MissionContext);
 
   const [loading, setLoading] = useState(true);
   const [boards, setBoards] = useState([]);
