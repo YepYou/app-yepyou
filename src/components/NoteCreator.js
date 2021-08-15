@@ -1,9 +1,10 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
 import styled from 'styled-components/native';
-import {ActivityIndicator, Animated} from 'react-native';
+import {ActivityIndicator, Animated, Platform} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
+import {Audio} from 'expo-av';
 
 import imageIcon from '../../assets/image.png';
 import microphoneIcon from '../../assets/microphone.png';
@@ -18,9 +19,11 @@ const NoteCreator = ({mission}) => {
 
   const [sendingImage, setSendingImage] = useState(false);
   const [recordingAudio, setRecordingAudio] = useState(false);
+  const [recording, setRecording] = useState(null);
   const [typingText, setTypingText] = useState(false);
   const [text, setText] = useState('');
   const [sendingText, setSendingText] = useState(false);
+  const [sendingAudio, setSendingAudio] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const springValue = useRef(new Animated.Value(0)).current;
@@ -47,7 +50,7 @@ const NoteCreator = ({mission}) => {
 
     try {
       await api.post('/v1/yepboards', {
-        mission: mission._id,
+        mission: '60e32897737e180031a9240b',
         user: user.id,
         type: 'text',
         content: text,
@@ -68,7 +71,7 @@ const NoteCreator = ({mission}) => {
 
     data.append('photo', {
       name: uuid(),
-      type: pickImage.type,
+      type: image.type,
       uri: image.uri.replace('file://', ''),
     });
 
@@ -86,16 +89,93 @@ const NoteCreator = ({mission}) => {
     setSendingImage(false);
   };
 
-  const sendAudio = () => {};
+  const startRecordingAudio = async () => {
+    const recording = new Audio.Recording();
+
+    try {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      await recording.prepareToRecordAsync({
+        isMeteringEnabled: true,
+        android: {
+          extension: '.m4a',
+          outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+          audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          bitRate: 128000,
+        },
+        ios: {
+          extension: '.caf',
+          audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          bitRate: 128000,
+          linearPCMBitDepth: 16,
+          linearPCMIsBigEndian: false,
+          linearPCMIsFloat: false,
+        },
+      });
+      await recording.startAsync();
+
+      setRecordingAudio(true);
+      setRecording(recording);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const stopRecordingAudio = async (cancelled = false) => {
+    await recording.stopAndUnloadAsync();
+
+    setRecordingAudio(false);
+
+    if (!cancelled) {
+      sendAudio(recording);
+    }
+
+    setRecording(null);
+  };
+
+  const sendAudio = async (audio) => {
+    setSendingAudio(true);
+
+    const data = new FormData();
+
+    data.append('audio', {
+      name: uuid(),
+      type: Platform.OS === 'android' ? 'audio/m4a' : 'audio/caf',
+      uri: audio.getURI().replace('file://', ''),
+    });
+
+    try {
+      await api.post('v1/yepboards', {
+        mission: mission._id,
+        user: user.id,
+        type: 'audio',
+        file: data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+    setSendingAudio(false);
+  };
 
   const fadeInAndOutAnimation = Animated.sequence([
     Animated.timing(fadeAnim, {
       toValue: 0.6,
       duration: 750,
+      useNativeDriver: true,
     }),
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 750,
+      useNativeDriver: true,
     }),
   ]);
 
@@ -109,6 +189,7 @@ const NoteCreator = ({mission}) => {
             friction: 3,
             tension: 40,
             duration: 1500,
+            useNativeDriver: true,
           }),
         ]),
       ).start();
@@ -124,14 +205,16 @@ const NoteCreator = ({mission}) => {
               color="#00000055"
               onPress={() => {
                 setTypingText(false);
-                setRecordingAudio(false);
+                stopRecordingAudio(true);
               }}>
               <ButtonImage resizeMode="contain" source={cancelIcon} />
             </Button>
           ))}
         {!typingText && !recordingAudio && (
           <Button
-            disabled={sendingImage || recordingAudio}
+            disabled={
+              sendingImage || recordingAudio || sendingText || sendingAudio
+            }
             color={colors.image}
             onPress={pickImage}>
             <ButtonImage resizeMode="contain" source={imageIcon} />
@@ -139,10 +222,10 @@ const NoteCreator = ({mission}) => {
         )}
         {!typingText && (
           <Button
-            disabled={sendingImage}
+            disabled={sendingImage || sendingText || sendingAudio}
             color={colors.audio}
             onPress={() =>
-              recordingAudio ? sendAudio() : setRecordingAudio(true)
+              recordingAudio ? stopRecordingAudio() : startRecordingAudio()
             }>
             <ButtonImage
               resizeMode="contain"
@@ -152,7 +235,9 @@ const NoteCreator = ({mission}) => {
         )}
         {!recordingAudio && (
           <Button
-            disabled={sendingImage || recordingAudio || sendingText}
+            disabled={
+              sendingImage || recordingAudio || sendingText || sendingAudio
+            }
             color={colors.text}
             onPress={() => (typingText ? sendText() : setTypingText(true))}>
             <ButtonImage
@@ -166,8 +251,14 @@ const NoteCreator = ({mission}) => {
         {!typingText ? (
           <Placeholder>
             {sendingImage && 'Enviando imagem...'}
+            {sendingText && 'Enviando texto...'}
             {recordingAudio && 'Gravando áudio...'}
-            {!sendingImage && !recordingAudio && 'Crie uma nota...'}
+            {sendingAudio && 'Enviando áudio...'}
+            {!sendingImage &&
+              !sendingText &&
+              !recordingAudio &&
+              !sendingAudio &&
+              'Crie uma nota...'}
           </Placeholder>
         ) : (
           <TextInput
@@ -177,7 +268,7 @@ const NoteCreator = ({mission}) => {
             onChangeText={setText}
           />
         )}
-        {(sendingImage || sendingText) && (
+        {(sendingImage || sendingText || sendingAudio) && (
           <ActivityIndicator color={colors.image} />
         )}
         {recordingAudio && (
