@@ -24,15 +24,18 @@ import config from '../config';
 import {StageTitle} from '../components';
 import api from '../services/api';
 import AuthContext from '../context/AuthContext';
+import MissionContext from '../context/MissionContext';
 
 const Mission = ({navigation, route}) => {
+  const {user} = useContext(AuthContext);
+  const {finish} = useContext(MissionContext);
+
   const [stage, setStage] = useState(1);
   const [showFinishModal, setShowFinishModal] = useState(false);
   const [finishLoading, setFinishLoading] = useState(false);
   const styles = useStyleSheet(themedStyles);
 
   const {mission} = route.params;
-  const {user} = useContext(AuthContext);
 
   const scroll = useRef();
 
@@ -72,6 +75,8 @@ const Mission = ({navigation, route}) => {
     } catch (e) {
       console.log(e);
     }
+
+    finish();
   };
 
   const nextStep = () => {

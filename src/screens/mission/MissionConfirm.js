@@ -34,6 +34,7 @@ import checkOn from '../../../assets/check-on.png';
 import checkOff from '../../../assets/check-off.png';
 
 import AuthContext from '../../context/AuthContext';
+import MissionContext from '../../context/MissionContext';
 
 const MissionBottleImage = (props) => (
   <Image resizeMode="contain" {...props} source={missionBottle} />
@@ -41,6 +42,7 @@ const MissionBottleImage = (props) => (
 
 const MissionConfirm = ({mission}) => {
   const {user} = useContext(AuthContext);
+  const {start} = useContext(MissionContext);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -72,6 +74,7 @@ const MissionConfirm = ({mission}) => {
 
   async function acceptMission() {
     setLoading(true);
+    start(mission);
 
     const netinfo = await NetInfo.fetch();
 
