@@ -29,9 +29,9 @@ const NoteCreator = ({mission}) => {
   const springValue = useRef(new Animated.Value(0)).current;
 
   const colors = {
-    image: '#561791',
-    audio: '#DB2C80',
-    text: '#3B90C5',
+    image: '#DB2C80',
+    audio: '#3B90C5',
+    text: '#561791',
   };
 
   const pickImage = async () => {
