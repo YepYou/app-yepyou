@@ -42,7 +42,7 @@ const TextBoard = ({id, mission, size, text, date, onUpdateText}) => {
   return (
     <>
       <Container size={size} onPress={() => setShowFullText(true)}>
-        <Text numberOfLines={6}>{text}</Text>
+        <Text numberOfLines={5}>{text}</Text>
         <Footer>
           <FooterText>
             {`${date.type === 'creation' ? 'Criado' : 'Atualizado'} em ${moment(
