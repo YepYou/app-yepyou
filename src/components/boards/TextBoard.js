@@ -93,6 +93,7 @@ const Container = styled.TouchableOpacity`
   background-color: #560b93;
   border-radius: 21px;
   padding: 16px;
+  margin: 4px;
 `;
 
 const Text = styled.Text`

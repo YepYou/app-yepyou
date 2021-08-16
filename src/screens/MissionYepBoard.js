@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
 import Balloon from 'react-native-balloon';
 import AuthContext from '../context/AuthContext';
@@ -37,27 +37,25 @@ const MissionYepboard = ({route}) => {
     }
   };
 
-  const renderBoards = () => {
-    return boards.map((board) => {
-      console.log(board);
-      switch (board.type) {
-        case config.boardTypes.text:
-          return (
-            <TextBoard
-              id={board._id}
-              mission={board.mission}
-              size={2}
-              text={board.content}
-              date={{
-                type:
-                  board.updatedAt === board.createdAt ? 'creation' : 'update',
-                date: board.updatedAt,
-              }}
-              onUpdateText={getYepBoard}
-            />
-          );
-      }
-    });
+  const renderBoard = (board) => {
+    switch (board.type) {
+      case config.boardTypes.text:
+        return (
+          <TextBoard
+            id={board._id}
+            mission={board.mission}
+            size={2}
+            text={board.content}
+            date={{
+              type: board.updatedAt === board.createdAt ? 'creation' : 'update',
+              date: board.updatedAt,
+            }}
+            onUpdateText={getYepBoard}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -79,7 +77,18 @@ const MissionYepboard = ({route}) => {
       </Dialogue>
       <Container>
         <NoteCreator mission={mission} />
-        {loading ? <Loading /> : <BoardList>{renderBoards()}</BoardList>}
+        {loading ? (
+          <Loading />
+        ) : (
+          <Boards>
+            <FlatList
+              data={boards}
+              renderItem={({item}) => renderBoard(item)}
+              keyExtractor={(item) => item._id}
+              numColumns={2}
+            />
+          </Boards>
+        )}
       </Container>
     </>
   );
@@ -112,9 +121,8 @@ const Container = styled.View`
   padding: 0 16px;
 `;
 
-const BoardList = styled.ScrollView`
+const Boards = styled.View`
   flex: 1;
-  width: 100%;
   margin-top: 16px;
 `;
 
