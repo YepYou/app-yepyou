@@ -8,10 +8,14 @@ import {Header, Loading, NoteCreator} from '../components';
 import imageCharacter from '../../assets/peronsagem1.png';
 import api from '../services/api';
 import MissionContext from '../context/MissionContext';
+import config from '../config';
+import {TextBoard} from '../components/boards';
 
-const MissionYepboard = () => {
+const MissionYepboard = ({route}) => {
   const {user} = useContext(AuthContext);
-  const {mission} = useContext(MissionContext);
+  const {mission} = route.params.mission
+    ? route.params
+    : useContext(MissionContext);
 
   const [loading, setLoading] = useState(true);
   const [boards, setBoards] = useState([]);
@@ -26,14 +30,35 @@ const MissionYepboard = () => {
         `/v1/yepboards?user=${user.id}&mission=${mission._id}`,
       );
 
-      setYepBoard(boards.docs);
+      setBoards(boards.docs);
       setLoading(false);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const renderBoards = () => {};
+  const renderBoards = () => {
+    return boards.map((board) => {
+      console.log(board);
+      switch (board.type) {
+        case config.boardTypes.text:
+          return (
+            <TextBoard
+              id={board._id}
+              mission={board.mission}
+              size={2}
+              text={board.content}
+              date={{
+                type:
+                  board.updatedAt === board.createdAt ? 'creation' : 'update',
+                date: board.updatedAt,
+              }}
+              onUpdateText={getYepBoard}
+            />
+          );
+      }
+    });
+  };
 
   return (
     <>
@@ -54,7 +79,7 @@ const MissionYepboard = () => {
       </Dialogue>
       <Container>
         <NoteCreator mission={mission} />
-        {loading ? <Loading /> : renderBoards()}
+        {loading ? <Loading /> : <BoardList>{renderBoards()}</BoardList>}
       </Container>
     </>
   );
@@ -85,6 +110,12 @@ const Container = styled.View`
   flex: 1;
   width: 100%;
   padding: 0 16px;
+`;
+
+const BoardList = styled.ScrollView`
+  flex: 1;
+  width: 100%;
+  margin-top: 16px;
 `;
 
 export default MissionYepboard;

@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {YepBoards, MissionYepBoard} from '../../screens';
 import MissionContext from '../../context/MissionContext';
 
-const YepBoardStack = ({route}) => {
+const YepBoardStack = () => {
   const Stack = createStackNavigator();
   const {mission} = useContext(MissionContext);
 
