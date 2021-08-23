@@ -7,7 +7,7 @@ import {Button, Spinner} from '@ui-kitten/components';
 import api from '../../services/api';
 import AuthContext from '../../context/AuthContext';
 
-const TextBoard = ({id, mission, size, text, date, onUpdateText}) => {
+const TextBoard = ({id, mission, text, date, onUpdateText}) => {
   const {user} = useContext(AuthContext);
 
   const [showFullText, setShowFullText] = useState(false);
@@ -41,11 +41,11 @@ const TextBoard = ({id, mission, size, text, date, onUpdateText}) => {
 
   return (
     <>
-      <Container size={size} onPress={() => setShowFullText(true)}>
+      <Container onPress={() => setShowFullText(true)}>
         <Text numberOfLines={5}>{text}</Text>
         <Footer>
           <FooterText>
-            {`${date.type === 'creation' ? 'Criado' : 'Atualizado'} em ${moment(
+            {`${date.type === 'creation' ? 'criado' : 'atualizado'} em ${moment(
               date.date,
             ).format('DD/MM/YY')}`}
           </FooterText>
@@ -88,8 +88,8 @@ const TextBoard = ({id, mission, size, text, date, onUpdateText}) => {
 };
 
 const Container = styled.TouchableOpacity`
-  flex: ${({size}) => size};
-  height: 150px;
+  flex: 2;
+  height: 180px;
   background-color: #560b93;
   border-radius: 21px;
   padding: 16px;
@@ -108,7 +108,8 @@ const Footer = styled.View`
 
 const FooterText = styled.Text`
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
+  font-style: italic;
 `;
 
 const ModalOverlay = styled.View`
