@@ -9,7 +9,7 @@ import imageCharacter from '../../assets/peronsagem1.png';
 import api from '../services/api';
 import MissionContext from '../context/MissionContext';
 import config from '../config';
-import {TextBoard} from '../components/boards';
+import {TextBoard, ImageBoard, AudioBoard} from '../components/boards';
 
 const MissionYepboard = ({route}) => {
   const {user} = useContext(AuthContext);
@@ -44,13 +44,32 @@ const MissionYepboard = ({route}) => {
           <TextBoard
             id={board._id}
             mission={board.mission}
-            size={2}
             text={board.content}
             date={{
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
             }}
             onUpdateText={getYepBoard}
+          />
+        );
+      case config.boardTypes.image:
+        return (
+          <ImageBoard
+            url={board.content}
+            date={{
+              type: board.updatedAt === board.createdAt ? 'creation' : 'update',
+              date: board.updatedAt,
+            }}
+          />
+        );
+      case config.boardTypes.audio:
+        return (
+          <AudioBoard
+            url={board.content}
+            date={{
+              type: board.updatedAt === board.createdAt ? 'creation' : 'update',
+              date: board.updatedAt,
+            }}
           />
         );
       default:
