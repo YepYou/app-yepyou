@@ -2,8 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 import styled from 'styled-components/native';
 import Balloon from 'react-native-balloon';
-import AuthContext from '../context/AuthContext';
+import {Modal, Text, Layout, Button, Card} from '@ui-kitten/components';
 
+import AuthContext from '../context/AuthContext';
 import {Header, Loading, NoteCreator} from '../components';
 import imageCharacter from '../../assets/peronsagem1.png';
 import api from '../services/api';
@@ -19,6 +20,8 @@ const MissionYepboard = ({route}) => {
 
   const [loading, setLoading] = useState(true);
   const [boards, setBoards] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     getYepBoard();
@@ -50,6 +53,10 @@ const MissionYepboard = ({route}) => {
               date: board.updatedAt,
             }}
             onUpdateText={getYepBoard}
+            onDelete={() => {
+              setDeleteId(board._id);
+              setShowDeleteModal(true);
+            }}
           />
         );
       case config.boardTypes.image:
@@ -59,6 +66,10 @@ const MissionYepboard = ({route}) => {
             date={{
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
+            }}
+            onDelete={() => {
+              setDeleteId(board._id);
+              setShowDeleteModal(true);
             }}
           />
         );
@@ -70,11 +81,28 @@ const MissionYepboard = ({route}) => {
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
             }}
+            onDelete={() => {
+              setDeleteId(board._id);
+              setShowDeleteModal(true);
+            }}
           />
         );
       default:
         return null;
     }
+  };
+
+  const deleteBoard = async () => {
+    setLoading(true);
+
+    try {
+      await api.delete(`/v1/yepboards/${deleteId}`);
+    } catch (e) {
+      console.log(e);
+    }
+
+    getYepBoard();
+    setDeleteId(null);
   };
 
   return (
@@ -109,6 +137,26 @@ const MissionYepboard = ({route}) => {
           </Boards>
         )}
       </Container>
+      <DeleteModal visible={showDeleteModal}>
+        <Card disabled={true}>
+          <Text>Deseja realmente remover essa nota?</Text>
+          <Text>{`\n`}</Text>
+          <DeleteModalActions>
+            <Button
+              appearance="ghost"
+              style={{flex: 1}}
+              onPress={() => {
+                setShowDeleteModal(false);
+                deleteBoard();
+              }}>
+              Sim
+            </Button>
+            <Button style={{flex: 1}} onPress={() => setShowDeleteModal(false)}>
+              Não
+            </Button>
+          </DeleteModalActions>
+        </Card>
+      </DeleteModal>
     </>
   );
 };
@@ -143,6 +191,15 @@ const Container = styled.View`
 const Boards = styled.View`
   flex: 1;
   margin-top: 16px;
+`;
+
+const DeleteModal = styled(Modal)`
+  width: 85%;
+`;
+
+const DeleteModalActions = styled(Layout)`
+  flex-direction: row;
+  width: 100%;
 `;
 
 export default MissionYepboard;

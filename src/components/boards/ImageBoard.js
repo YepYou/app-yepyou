@@ -3,12 +3,17 @@ import {Modal} from 'react-native';
 import moment from 'moment';
 import styled from 'styled-components/native';
 
-const ImageBoard = ({url, date}) => {
+import trashIcon from '../../../assets/trash.png';
+
+const ImageBoard = ({url, date, onDelete}) => {
   const [fullscreen, setFullscreen] = useState(false);
 
   return (
     <>
       <Container onPress={() => setFullscreen(true)}>
+        <DeleteButton onPress={onDelete}>
+          <TrashIcon source={trashIcon} />
+        </DeleteButton>
         <Image
           resizeMode="cover"
           source={{
@@ -65,6 +70,20 @@ const FooterText = styled.Text`
   color: #fff;
   font-size: 11px;
   font-style: italic;
+`;
+
+const DeleteButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  padding: 2px;
+  border-radius: 33px;
+  z-index: 999;
+`;
+
+const TrashIcon = styled.Image`
+  width: 24px;
+  height: 24px;
 `;
 
 export default ImageBoard;

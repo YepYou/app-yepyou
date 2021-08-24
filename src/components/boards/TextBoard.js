@@ -6,8 +6,9 @@ import {Button, Spinner} from '@ui-kitten/components';
 
 import api from '../../services/api';
 import AuthContext from '../../context/AuthContext';
+import trashIcon from '../../../assets/trash.png';
 
-const TextBoard = ({id, mission, text, date, onUpdateText}) => {
+const TextBoard = ({id, mission, text, date, onUpdateText, onDelete}) => {
   const {user} = useContext(AuthContext);
 
   const [showFullText, setShowFullText] = useState(false);
@@ -42,7 +43,10 @@ const TextBoard = ({id, mission, text, date, onUpdateText}) => {
   return (
     <>
       <Container onPress={() => setShowFullText(true)}>
-        <Text numberOfLines={5}>{text}</Text>
+        <DeleteButton onPress={onDelete}>
+          <TrashIcon source={trashIcon} />
+        </DeleteButton>
+        <Text numberOfLines={8}>{text}</Text>
         <Footer>
           <FooterText>
             {`${date.type === 'creation' ? 'criado' : 'atualizado'} em ${moment(
@@ -92,7 +96,7 @@ const Container = styled.TouchableOpacity`
   height: 180px;
   background-color: #560b93;
   border-radius: 21px;
-  padding: 16px;
+  padding: 16px 28px 16px 16px;
   margin: 4px;
 `;
 
@@ -126,12 +130,6 @@ const FullText = styled.View`
   border-radius: 33px;
 `;
 
-const ScrollText = styled.ScrollView`
-  flex: 5;
-  padding: 0 16px;
-  margin: 32px 0 16px 0;
-`;
-
 const Actions = styled.View`
   flex: 1;
   flex-direction: row;
@@ -150,6 +148,21 @@ const TextInput = styled.TextInput`
 const LoadingIndicatorContainer = styled.View`
   justify-content: center;
   align-items: center;
+`;
+
+const DeleteButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  padding: 2px;
+  background-color: #560b93;
+  border-radius: 33px;
+  z-index: 999;
+`;
+
+const TrashIcon = styled.Image`
+  width: 24px;
+  height: 24px;
 `;
 
 export default TextBoard;

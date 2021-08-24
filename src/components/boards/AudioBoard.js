@@ -6,8 +6,9 @@ import {Audio} from 'expo-av';
 import playIcon from '../../../assets/play.png';
 import pauseIcon from '../../../assets/pause.png';
 import replayIcon from '../../../assets/replay.png';
+import trashIcon from '../../../assets/trash.png';
 
-const AudioBoard = ({url, date}) => {
+const AudioBoard = ({url, date, onDelete}) => {
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
@@ -89,6 +90,9 @@ const AudioBoard = ({url, date}) => {
       onPress={
         !isPlaying ? (!isFinished ? playSound : replaySound) : pauseSound
       }>
+      <DeleteButton onPress={onDelete}>
+        <TrashIcon source={trashIcon} />
+      </DeleteButton>
       <PlayIcon
         resizeMode="contain"
         source={!isPlaying ? (!isFinished ? playIcon : replayIcon) : pauseIcon}
@@ -130,6 +134,20 @@ const FooterText = styled.Text`
 const PlayIcon = styled.Image`
   width: 45px;
   height: 45px;
+`;
+
+const DeleteButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  padding: 2px;
+  border-radius: 33px;
+  z-index: 999;
+`;
+
+const TrashIcon = styled.Image`
+  width: 24px;
+  height: 24px;
 `;
 
 export default AudioBoard;
