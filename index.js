@@ -1,15 +1,16 @@
 import Reactotron from 'reactotron-react-native';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 if (__DEV__) {
-	Reactotron
-		.configure() // controls connection & communication settings
-		.useReactNative() // add all built-in react native plugins
-		.connect() // let's connect!
+  Reactotron.configure() // controls connection & communication settings
+    .useReactNative() // add all built-in react native plugins
+    .connect(); // let's connect!
 }
 
 console.tron = Reactotron;
 
-import { registerRootComponent } from 'expo';
+import {registerRootComponent} from 'expo';
 
 import App from './App';
 
