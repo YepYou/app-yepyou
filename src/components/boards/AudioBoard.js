@@ -95,7 +95,7 @@ const AudioBoard = ({url, date}) => {
       />
       <Footer>
         <FooterText>
-          {`${date.type === 'creation' ? 'criado' : 'atualizado'} em ${moment(
+          {`${date.type === 'creation' ? 'criado' : 'atualizado'} em\n${moment(
             date.date,
           ).format('DD/MM/YY')}`}
         </FooterText>
@@ -116,9 +116,9 @@ const Container = styled.TouchableOpacity`
 
 const Footer = styled.View`
   flex: 1;
-  padding: 16px;
   position: absolute;
-  bottom: 0;
+  bottom: 16px;
+  left: 16px;
 `;
 
 const FooterText = styled.Text`
