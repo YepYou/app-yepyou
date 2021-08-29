@@ -1,11 +1,21 @@
 import Reactotron from 'reactotron-react-native';
-import moment from 'moment';
-import 'moment/locale/pt-br';
+import {NativeModules} from 'react-native';
+
+const {scriptURL} = NativeModules.SourceCode;
+const host = scriptURL.split('://')[1].split(':')[0];
 
 if (__DEV__) {
-  Reactotron.configure() // controls connection & communication settings
-    .useReactNative() // add all built-in react native plugins
-    .connect(); // let's connect!
+  Reactotron.configure({
+    name: 'YepYou',
+    host,
+  })
+    .useReactNative({
+      networking: {
+        ignoreUrls: /symbolicate/,
+      },
+    })
+    .connect()
+    .clear();
 }
 
 console.tron = Reactotron;
