@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import moment from 'moment';
 import styled from 'styled-components/native';
 import {Audio} from 'expo-av';
 
 import playIcon from '../../../assets/play.png';
 import pauseIcon from '../../../assets/pause.png';
 import replayIcon from '../../../assets/replay.png';
+import trashIcon from '../../../assets/trash.png';
 
-const PlayAudio = ({url}) => {
+const AudioBoard = ({url, date, onDelete}) => {
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [time, setTime] = useState(null);
-  const [barWidth, setBarWidth] = useState(0);
 
   useEffect(() => {
     Audio.setAudioModeAsync({
@@ -83,77 +84,70 @@ const PlayAudio = ({url}) => {
       setIsPlaying(false);
     }
   };
-  const positionPercent = () =>
-    time ? Math.round((time.positionMillis * 100) / time.durationMillis) : 0;
 
   return (
-    <Container>
-      <Bar onLayout={({nativeEvent}) => setBarWidth(nativeEvent.layout.width)}>
-        <ProgressBar width={positionPercent()} />
-        <Pointer position={positionPercent()} barWidth={barWidth} />
-      </Bar>
-      <Button
-        onPress={
-          !isPlaying ? (!isFinished ? playSound : replaySound) : pauseSound
-        }>
-        <PlayIcon
-          resizeMode="contain"
-          source={
-            !isPlaying ? (!isFinished ? playIcon : replayIcon) : pauseIcon
-          }
-        />
-      </Button>
+    <Container
+      onPress={
+        !isPlaying ? (!isFinished ? playSound : replaySound) : pauseSound
+      }>
+      <DeleteButton onPress={onDelete}>
+        <TrashIcon source={trashIcon} />
+      </DeleteButton>
+      <PlayIcon
+        resizeMode="contain"
+        source={!isPlaying ? (!isFinished ? playIcon : replayIcon) : pauseIcon}
+      />
+      <Footer>
+        <FooterText>
+          {`${date.type === 'creation' ? 'criado' : 'atualizado'} em\n${moment(
+            date.date,
+          ).format('DD/MM/YY')}`}
+        </FooterText>
+      </Footer>
     </Container>
   );
 };
 
-const Container = styled.View`
-  width: 100%;
-  height: 62px;
-  margin: 8px 0;
-  background-color: #560ba0;
-  border-radius: 32px;
+const Container = styled.TouchableOpacity`
+  flex: 1.3;
+  height: 180px;
+  background-color: #3b90c5;
+  border-radius: 21px;
+  margin: 4px;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-  padding: 0 16px;
 `;
 
-const Bar = styled.View`
-  width: 100%;
-  height: 10px;
-  background-color: #ea258055;
-  border-radius: 5px;
-  flex: 5;
-`;
-
-const Pointer = styled.View`
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  position: absolute;
-  bottom: -5px;
-  left: ${({position, barWidth}) => `${(position / 100) * barWidth - 8}px`};
-`;
-
-const ProgressBar = styled.View`
-  width: ${({width}) => `${width}%`};
-  padding-right: 2px;
-  height: 10px;
-  background-color: #ea2580;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-`;
-
-const Button = styled.TouchableOpacity`
+const Footer = styled.View`
   flex: 1;
-  align-items: flex-end;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+`;
+
+const FooterText = styled.Text`
+  color: #fff;
+  font-size: 11px;
+  font-style: italic;
 `;
 
 const PlayIcon = styled.Image`
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 45px;
 `;
 
-export default PlayAudio;
+const DeleteButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  padding: 2px;
+  border-radius: 33px;
+  z-index: 999;
+`;
+
+const TrashIcon = styled.Image`
+  width: 24px;
+  height: 24px;
+`;
+
+export default AudioBoard;
