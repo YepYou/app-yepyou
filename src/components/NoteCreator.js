@@ -3,8 +3,8 @@ import styled from 'styled-components/native';
 import {ActivityIndicator, Animated, Platform} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import 'react-native-get-random-values';
-import {v4 as uuid} from 'uuid';
 import {Audio} from 'expo-av';
+import * as FileSystem from 'expo-file-system';
 
 import imageIcon from '../../assets/image.png';
 import microphoneIcon from '../../assets/microphone.png';
@@ -38,6 +38,7 @@ const NoteCreator = ({mission}) => {
     let pickedImage = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 1,
+      base64: true,
     });
 
     if (!pickedImage.cancelled) {
@@ -67,20 +68,12 @@ const NoteCreator = ({mission}) => {
   const sendImage = async (image) => {
     setSendingImage(true);
 
-    const data = new FormData();
-
-    data.append('photo', {
-      name: uuid(),
-      type: image.type,
-      uri: image.uri.replace('file://', ''),
-    });
-
     try {
       await api.post('v1/yepboards', {
         mission: mission._id,
         user: user.id,
         type: 'image',
-        file: data,
+        file: `data:image/jpeg;base64,${image.base64}`,
       });
     } catch (e) {
       console.log(e);
@@ -111,7 +104,7 @@ const NoteCreator = ({mission}) => {
         },
         ios: {
           extension: '.caf',
-          audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
+          audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
           sampleRate: 44100,
           numberOfChannels: 2,
           bitRate: 128000,
@@ -144,20 +137,18 @@ const NoteCreator = ({mission}) => {
   const sendAudio = async (audio) => {
     setSendingAudio(true);
 
-    const data = new FormData();
-
-    data.append('audio', {
-      name: uuid(),
-      type: Platform.OS === 'android' ? 'audio/m4a' : 'audio/caf',
-      uri: audio.getURI().replace('file://', ''),
-    });
-
     try {
+      const data = await FileSystem.readAsStringAsync(audio.getURI(), {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
       await api.post('v1/yepboards', {
         mission: mission._id,
         user: user.id,
         type: 'audio',
-        file: data,
+        file: `data:audio/${
+          Platform.OS === 'android' ? 'm4a' : 'caf'
+        };base64,${data}`,
       });
     } catch (e) {
       console.log(e);

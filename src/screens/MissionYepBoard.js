@@ -14,9 +14,7 @@ import {TextBoard, ImageBoard, AudioBoard} from '../components/boards';
 
 const MissionYepboard = ({route}) => {
   const {user} = useContext(AuthContext);
-  const {mission} = route.params.mission
-    ? route.params
-    : useContext(MissionContext);
+  const {mission} = route.params ? route.params : useContext(MissionContext);
 
   const [loading, setLoading] = useState(true);
   const [boards, setBoards] = useState([]);
@@ -62,7 +60,7 @@ const MissionYepboard = ({route}) => {
       case config.boardTypes.image:
         return (
           <ImageBoard
-            url={board.content}
+            url={board.url}
             date={{
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
@@ -76,7 +74,7 @@ const MissionYepboard = ({route}) => {
       case config.boardTypes.audio:
         return (
           <AudioBoard
-            url={board.content}
+            url={board.url}
             date={{
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
