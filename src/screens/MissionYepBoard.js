@@ -60,7 +60,7 @@ const MissionYepboard = ({route}) => {
       case config.boardTypes.image:
         return (
           <ImageBoard
-            url={board.content}
+            url={board.url}
             date={{
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
@@ -74,7 +74,7 @@ const MissionYepboard = ({route}) => {
       case config.boardTypes.audio:
         return (
           <AudioBoard
-            url={board.content}
+            url={board.url}
             date={{
               type: board.updatedAt === board.createdAt ? 'creation' : 'update',
               date: board.updatedAt,
