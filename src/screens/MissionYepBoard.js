@@ -31,7 +31,7 @@ const MissionYepboard = ({route}) => {
         `/v1/yepboards?user=${user.id}&mission=${mission._id}`,
       );
 
-      setBoards(boards.docs);
+      setBoards(boards.docs.sort((a, b) => a.createdAt < b.createdAt));
       setLoading(false);
     } catch (e) {
       console.log(e);
@@ -121,7 +121,7 @@ const MissionYepboard = ({route}) => {
         <CharacterImage resizeMode="contain" source={imageCharacter} />
       </Dialogue>
       <Container>
-        <NoteCreator mission={mission} />
+        <NoteCreator mission={mission} onSendContent={getYepBoard} />
         {loading ? (
           <Loading />
         ) : (

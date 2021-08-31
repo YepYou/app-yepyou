@@ -14,7 +14,7 @@ import sendIcon from '../../assets/send.png';
 import api from '../services/api';
 import AuthContext from '../context/AuthContext';
 
-const NoteCreator = ({mission}) => {
+const NoteCreator = ({mission, onSendContent}) => {
   const {user} = useContext(AuthContext);
 
   const [sendingImage, setSendingImage] = useState(false);
@@ -56,6 +56,8 @@ const NoteCreator = ({mission}) => {
         type: 'text',
         content: text,
       });
+
+      onSendContent();
     } catch (e) {
       console.log(e);
     }
@@ -75,6 +77,8 @@ const NoteCreator = ({mission}) => {
         type: 'image',
         file: `data:image/jpeg;base64,${image.base64}`,
       });
+
+      onSendContent();
     } catch (e) {
       console.log(e);
     }
@@ -150,6 +154,8 @@ const NoteCreator = ({mission}) => {
           Platform.OS === 'android' ? 'm4a' : 'caf'
         };base64,${data}`,
       });
+
+      onSendContent();
     } catch (e) {
       console.log(e);
     }
