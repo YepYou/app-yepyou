@@ -121,7 +121,7 @@ const MissionYepboard = ({route}) => {
         <CharacterImage resizeMode="contain" source={imageCharacter} />
       </Dialogue>
       <Container>
-        <NoteCreator mission={mission} />
+        <NoteCreator mission={mission} onSendContent={getYepBoard} />
         {loading ? (
           <Loading />
         ) : (
