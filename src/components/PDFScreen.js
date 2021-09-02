@@ -4,16 +4,14 @@ import PDFReader from 'rn-pdf-reader-js';
 
 import backButtonIcon from '../../assets/backButtom.png';
 
-const PDFScreen = ({visible, onClose}) => {
-  const testUrl = 'http://www.africau.edu/images/default/sample.pdf';
-
+const PDFScreen = ({visible, url, onBackPress}) => {
   return (
-    <Modal visible={visible} transparent>
+    <Modal visible={visible}>
       <Container>
-        <BackButton>
+        <BackButton onPress={() => onBackPress()}>
           <BackButtonIcon source={backButtonIcon} />
         </BackButton>
-        <PDF source={{uri: testUrl}} />
+        <PDF source={{uri: url}} />
       </Container>
     </Modal>
   );
