@@ -49,7 +49,7 @@ const Mission = ({navigation, route}) => {
         case config.contentTypes.subTitle:
           return <Subtitle text={content.textContent} />;
         case config.contentTypes.text:
-          return <Dialogue text={content.textContent} />;
+          return <Dialogue text={content.textContent} url={content.url} />;
         case config.contentTypes.image:
           return <Img url={content.url} />;
         case config.contentTypes.audio:
