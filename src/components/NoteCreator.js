@@ -5,6 +5,13 @@ import * as ImagePicker from 'expo-image-picker';
 import 'react-native-get-random-values';
 import {Audio} from 'expo-av';
 import * as FileSystem from 'expo-file-system';
+import {
+  Modal,
+  Text,
+  Layout,
+  Button as UIButton,
+  Card,
+} from '@ui-kitten/components';
 
 import imageIcon from '../../assets/image.png';
 import microphoneIcon from '../../assets/microphone.png';
@@ -24,6 +31,7 @@ const NoteCreator = ({mission, onSendContent}) => {
   const [text, setText] = useState('');
   const [sendingText, setSendingText] = useState(false);
   const [sendingAudio, setSendingAudio] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const springValue = useRef(new Animated.Value(0)).current;
@@ -79,8 +87,12 @@ const NoteCreator = ({mission, onSendContent}) => {
       });
 
       onSendContent();
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+
+      if (error.message.includes('413')) {
+        setShowErrorModal(true);
+      }
     }
 
     setSendingImage(false);
@@ -121,8 +133,8 @@ const NoteCreator = ({mission, onSendContent}) => {
 
       setRecordingAudio(true);
       setRecording(recording);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -156,8 +168,12 @@ const NoteCreator = ({mission, onSendContent}) => {
       });
 
       onSendContent();
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+
+      if (error.message.includes('413')) {
+        setShowErrorModal(true);
+      }
     }
 
     setSendingAudio(false);
@@ -194,93 +210,111 @@ const NoteCreator = ({mission, onSendContent}) => {
   }, [recordingAudio]);
 
   return (
-    <Container height={typingText ? 200 : 60}>
-      <Actions>
-        {typingText ||
-          (recordingAudio && (
+    <>
+      <Container height={typingText ? 200 : 60}>
+        <Actions>
+          {typingText ||
+            (recordingAudio && (
+              <Button
+                color="#00000055"
+                onPress={() => {
+                  setTypingText(false);
+                  stopRecordingAudio(true);
+                }}>
+                <ButtonImage resizeMode="contain" source={cancelIcon} />
+              </Button>
+            ))}
+          {!typingText && !recordingAudio && (
             <Button
-              color="#00000055"
-              onPress={() => {
-                setTypingText(false);
-                stopRecordingAudio(true);
-              }}>
-              <ButtonImage resizeMode="contain" source={cancelIcon} />
+              disabled={
+                sendingImage || recordingAudio || sendingText || sendingAudio
+              }
+              color={colors.image}
+              onPress={pickImage}>
+              <ButtonImage resizeMode="contain" source={imageIcon} />
             </Button>
-          ))}
-        {!typingText && !recordingAudio && (
-          <Button
-            disabled={
-              sendingImage || recordingAudio || sendingText || sendingAudio
-            }
-            color={colors.image}
-            onPress={pickImage}>
-            <ButtonImage resizeMode="contain" source={imageIcon} />
-          </Button>
-        )}
-        {!typingText && (
-          <Button
-            disabled={sendingImage || sendingText || sendingAudio}
-            color={colors.audio}
-            onPress={() =>
-              recordingAudio ? stopRecordingAudio() : startRecordingAudio()
-            }>
-            <ButtonImage
-              resizeMode="contain"
-              source={recordingAudio ? sendIcon : microphoneIcon}
+          )}
+          {!typingText && (
+            <Button
+              disabled={sendingImage || sendingText || sendingAudio}
+              color={colors.audio}
+              onPress={() =>
+                recordingAudio ? stopRecordingAudio() : startRecordingAudio()
+              }>
+              <ButtonImage
+                resizeMode="contain"
+                source={recordingAudio ? sendIcon : microphoneIcon}
+              />
+            </Button>
+          )}
+          {!recordingAudio && (
+            <Button
+              disabled={
+                sendingImage || recordingAudio || sendingText || sendingAudio
+              }
+              color={colors.text}
+              onPress={() => (typingText ? sendText() : setTypingText(true))}>
+              <ButtonImage
+                resizeMode="contain"
+                source={typingText ? sendIcon : textIcon}
+              />
+            </Button>
+          )}
+        </Actions>
+        <Content flex={typingText ? 5 : 1}>
+          {!typingText ? (
+            <Placeholder>
+              {sendingImage && 'Enviando imagem...'}
+              {sendingText && 'Enviando texto...'}
+              {recordingAudio && 'Gravando áudio...'}
+              {sendingAudio && 'Enviando áudio...'}
+              {!sendingImage &&
+                !sendingText &&
+                !recordingAudio &&
+                !sendingAudio &&
+                'Crie uma nota...'}
+            </Placeholder>
+          ) : (
+            <TextInput
+              multiline
+              placeholder="Digite o texto de sua nota..."
+              value={text}
+              onChangeText={setText}
             />
-          </Button>
-        )}
-        {!recordingAudio && (
-          <Button
-            disabled={
-              sendingImage || recordingAudio || sendingText || sendingAudio
-            }
-            color={colors.text}
-            onPress={() => (typingText ? sendText() : setTypingText(true))}>
-            <ButtonImage
-              resizeMode="contain"
-              source={typingText ? sendIcon : textIcon}
+          )}
+          {(sendingImage || sendingText || sendingAudio) && (
+            <ActivityIndicator color={colors.image} />
+          )}
+          {recordingAudio && (
+            <Animated.View
+              style={{
+                opacity: fadeAnim,
+                width: 20,
+                height: 20,
+                borderRadius: 10,
+                backgroundColor: 'red',
+              }}
             />
-          </Button>
-        )}
-      </Actions>
-      <Content flex={typingText ? 5 : 1}>
-        {!typingText ? (
-          <Placeholder>
-            {sendingImage && 'Enviando imagem...'}
-            {sendingText && 'Enviando texto...'}
-            {recordingAudio && 'Gravando áudio...'}
-            {sendingAudio && 'Enviando áudio...'}
-            {!sendingImage &&
-              !sendingText &&
-              !recordingAudio &&
-              !sendingAudio &&
-              'Crie uma nota...'}
-          </Placeholder>
-        ) : (
-          <TextInput
-            multiline
-            placeholder="Digite o texto de sua nota..."
-            value={text}
-            onChangeText={setText}
-          />
-        )}
-        {(sendingImage || sendingText || sendingAudio) && (
-          <ActivityIndicator color={colors.image} />
-        )}
-        {recordingAudio && (
-          <Animated.View
-            style={{
-              opacity: fadeAnim,
-              width: 20,
-              height: 20,
-              borderRadius: 10,
-              backgroundColor: 'red',
-            }}
-          />
-        )}
-      </Content>
-    </Container>
+          )}
+        </Content>
+      </Container>
+      <ErrorModal visible={showErrorModal}>
+        <Card disabled={true}>
+          <Text>
+            Você está enviando um arquivo muito grande, tente enviar um arquivo
+            de até 50mb
+          </Text>
+          <Text>{`\n`}</Text>
+          <ErrorModalActions>
+            <UIButton
+              appearance="ghost"
+              onPress={() => setShowErrorModal(false)}>
+              OK
+            </UIButton>
+          </ErrorModalActions>
+        </Card>
+      </ErrorModal>
+    </>
   );
 };
 
@@ -330,5 +364,14 @@ const Placeholder = styled.Text`
 `;
 
 const TextInput = styled.TextInput``;
+
+const ErrorModal = styled(Modal)`
+  width: 85%;
+`;
+
+const ErrorModalActions = styled(Layout)`
+  flex-direction: row;
+  width: 100%;
+`;
 
 export default NoteCreator;
