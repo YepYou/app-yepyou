@@ -109,7 +109,6 @@ const Mission = ({navigation, route}) => {
           <StageTitle text={mission.stages[stage - 1].name} />
         )}
         {renderContent()}
-        {renderContent()}
         <TouchableOpacity style={styles.button} onPress={nextStep}>
           <Text style={styles.buttonText}>
             {mission.stages.length === stage
