@@ -4,11 +4,8 @@
   "expo": {
     "name": "YepYou!",
     "slug": "yepyou",
-    "version": "0.2.0",
-    "platforms": [
-      "android",
-      "ios"
-    ],
+    "version": "0.5.0",
+    "platforms": ["android", "ios"],
     "icon": "./assets/appIcon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,12 +19,9 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 4,
+      "versionCode": 7,
       "permissions": []
-
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }
