@@ -1,10 +1,10 @@
 {
-  "name": "YepYou!",
+  "name": "yepyou",
   "displayName": "YepYou!",
   "expo": {
     "name": "YepYou!",
     "slug": "yepyou",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "platforms": ["android", "ios"],
     "icon": "./assets/appIcon.png",
     "splash": {
@@ -19,7 +19,7 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 7,
+      "versionCode": 1,
       "permissions": ["RECORD_AUDIO"]
     },
     "assetBundlePatterns": ["**/*"]
