@@ -59,7 +59,7 @@ const NoteCreator = ({mission, onSendContent}) => {
 
     try {
       await api.post('/v1/yepboards', {
-        mission: '60e32897737e180031a9240b',
+        mission: mission._id,
         user: user.id,
         type: 'text',
         content: text,
