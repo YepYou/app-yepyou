@@ -32,6 +32,7 @@ const NoteCreator = ({mission, onSendContent}) => {
   const [sendingText, setSendingText] = useState(false);
   const [sendingAudio, setSendingAudio] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [recordingPermission, setRecordingPermission] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const springValue = useRef(new Animated.Value(0)).current;
@@ -40,6 +41,18 @@ const NoteCreator = ({mission, onSendContent}) => {
     image: '#DB2C80',
     audio: '#3B90C5',
     text: '#561791',
+  };
+
+  useEffect(() => {
+    getPermissions();
+  }, []);
+
+  const getPermissions = async () => {
+    const {status} = await Audio.requestPermissionsAsync();
+
+    if (status === 'granted') {
+      setRecordingPermission(true);
+    }
   };
 
   const pickImage = async () => {
@@ -236,7 +249,12 @@ const NoteCreator = ({mission, onSendContent}) => {
           )}
           {!typingText && (
             <Button
-              disabled={sendingImage || sendingText || sendingAudio}
+              disabled={
+                sendingImage ||
+                sendingText ||
+                sendingAudio ||
+                !recordingPermission
+              }
               color={colors.audio}
               onPress={() =>
                 recordingAudio ? stopRecordingAudio() : startRecordingAudio()

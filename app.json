@@ -20,7 +20,7 @@
     "android": {
       "package": "us.yepyou",
       "versionCode": 7,
-      "permissions": []
+      "permissions": ["RECORD_AUDIO"]
     },
     "assetBundlePatterns": ["**/*"]
   }
