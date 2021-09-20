@@ -118,7 +118,7 @@ const MissionConfirm = ({mission}) => {
             <View style={styles.missionDetailsRowContent}>
               <View style={styles.missionDetailsRowTitle}>
                 <Text style={styles.missionDetailsRowTitleText}>
-                  Envolvimento dos pais
+                  Nível de intervenção
                 </Text>
               </View>
               <View style={styles.iconsWrapper}>
