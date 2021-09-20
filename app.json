@@ -1,14 +1,11 @@
 {
-  "name": "YepYou!",
+  "name": "yepyou",
   "displayName": "YepYou!",
   "expo": {
     "name": "YepYou!",
     "slug": "yepyou",
-    "version": "0.4.0",
-    "platforms": [
-      "android",
-      "ios"
-    ],
+    "version": "0.5.1",
+    "platforms": ["android", "ios"],
     "icon": "./assets/appIcon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,12 +19,9 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 6,
-      "permissions": []
-
+      "versionCode": 1,
+      "permissions": ["RECORD_AUDIO"]
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }

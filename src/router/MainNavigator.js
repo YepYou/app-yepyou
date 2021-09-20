@@ -3,7 +3,7 @@ import { Image, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
 
-import { WorldStack, MenuStack } from './stacks';
+import { WorldStack, MenuStack, YepBoardStack } from './stacks';
 
 import imageLogBook from '../../assets/menuIcons/logBook.png';
 import imageExplorerGuide from '../../assets/menuIcons/explorerGuide.png';
@@ -42,7 +42,7 @@ const BottomTabBar = ({ navigation, state }) => {
             }>
                 <BottomNavigationTab disabled icon={ExplorerGuideIcon}/>
                 <BottomNavigationTab icon={MenuIcon}/>
-                <BottomNavigationTab disabled icon={LogBookIcon}/>
+                <BottomNavigationTab icon={LogBookIcon}/>
         </BottomNavigation>
     );
 };
@@ -51,7 +51,7 @@ const TabNavigator = () => (
     <Navigator tabBar={props => <BottomTabBar {...props} />}>
         <Screen name="World" component={WorldStack} />
         <Screen name="Profile2" component={MenuStack} />
-        <Screen name="Profile3" component={WorldStack} />
+        <Screen name="YepBoard" component={YepBoardStack} />
     </Navigator>
 );
 
