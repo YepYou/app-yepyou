@@ -4,7 +4,7 @@
   "expo": {
     "name": "YepYou!",
     "slug": "yepyou",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "platforms": ["android", "ios"],
     "icon": "./assets/appIcon.png",
     "splash": {
@@ -19,7 +19,7 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 12,
+      "versionCode": 13,
       "permissions": ["RECORD_AUDIO"]
     },
     "assetBundlePatterns": ["**/*"]
