@@ -19,7 +19,7 @@
     },
     "android": {
       "package": "us.yepyou",
-      "versionCode": 1,
+      "versionCode": 12,
       "permissions": ["RECORD_AUDIO"]
     },
     "assetBundlePatterns": ["**/*"]
