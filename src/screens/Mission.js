@@ -83,8 +83,6 @@ const Mission = ({navigation, route}) => {
     mission.stages.length === stage
       ? setShowFinishModal(true)
       : setStage(stage + 1);
-
-    scroll.current.scrollTo();
   };
 
   return (
@@ -109,7 +107,15 @@ const Mission = ({navigation, route}) => {
           <StageTitle text={mission.stages[stage - 1].name} />
         )}
         {renderContent()}
-        <TouchableOpacity style={styles.button} onPress={nextStep}>
+        <Layout
+          style={{width: '100%', height: 1300, backgroundColor: '#000'}}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            scroll.current.scrollTo();
+            nextStep();
+          }}>
           <Text style={styles.buttonText}>
             {mission.stages.length === stage
               ? 'Finalizar missão'
