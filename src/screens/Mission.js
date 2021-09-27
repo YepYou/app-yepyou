@@ -101,8 +101,7 @@ const Mission = ({navigation, route}) => {
       <ScrollView
         ref={scroll}
         style={styles.container}
-        contentContainerStyle={{alignItems: 'center'}}
-        setS>
+        contentContainerStyle={{alignItems: 'center'}}>
         {mission.stages[stage - 1] && (
           <StageTitle text={mission.stages[stage - 1].name} />
         )}
