@@ -106,9 +106,6 @@ const Mission = ({navigation, route}) => {
           <StageTitle text={mission.stages[stage - 1].name} />
         )}
         {renderContent()}
-        <Layout
-          style={{width: '100%', height: 1300, backgroundColor: '#000'}}
-        />
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
