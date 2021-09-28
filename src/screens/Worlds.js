@@ -40,21 +40,6 @@ const World = () => {
     getWorlds();
   }, []);
 
-  async function loadMoreWorlds() {
-    if (worlds.length <= totalPages) {
-      try {
-        setPage((oldPage) => oldPage + 1);
-        const {data: worldsData} = await api.get(
-          `/v1/worlds?status=true&page=${page}`,
-        );
-
-        setWorlds([...worlds, worldsData]);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
-
   async function getWorlds() {
     setLoading(true);
 
@@ -135,8 +120,6 @@ const World = () => {
           data={worlds}
           renderItem={renderItem}
           onRefresh={() => getWorlds()}
-          onEndReachedThreshold={0.1}
-          onEndReached={loadMoreWorlds}
         />
       </Layout>
     </>
