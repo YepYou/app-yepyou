@@ -59,6 +59,7 @@ const config = {
     text: 'text',
     audio: 'audio',
     video: 'video',
+    gallery: 'gallery',
   },
   boardTypes: {
     text: 'text',
