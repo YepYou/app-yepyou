@@ -18,6 +18,7 @@ import {
   Dialogue,
   PlayAudio,
   Video,
+  Gallery,
 } from '../components/contents';
 import colors from '../styles/palette.json';
 import config from '../config';
@@ -56,6 +57,8 @@ const Mission = ({navigation, route}) => {
           return <PlayAudio url={content.url} />;
         case config.contentTypes.video:
           return <Video url={content.textContent} />;
+        case config.contentTypes.gallery:
+          return <Gallery content={content} />;
         default:
           return null;
       }
