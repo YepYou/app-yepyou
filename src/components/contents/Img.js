@@ -19,7 +19,6 @@ const Img = ({url}) => {
   const Image = styled.Image`
     width: ${!isPortrait ? '100%' : '70%'};
     height: ${!isPortrait ? '200px' : '300px'};
-    border: 5px solid #ea2580;
     border-radius: 32px;
   `;
 
